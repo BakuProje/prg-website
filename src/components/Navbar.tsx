@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useCartStore } from '../store/cartStore';
+import logoUrl from '../assets/logonobg.png';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
@@ -85,7 +86,7 @@ export default function Navbar() {
                         {/* Logo */}
                         <a href="#beranda" className="flex items-center gap-3 group">
                             <img
-                                src="/src/assets/logonobg.png"
+                                src={logoUrl}
                                 alt="Logo"
                                 className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                             />
@@ -167,7 +168,7 @@ export default function Navbar() {
                     <div className="flex items-center justify-between mb-12 relative z-10 p-2">
                         <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-neon-blue/10 to-neon-purple/10 flex items-center justify-center border border-white/10">
-                                <img src="/src/assets/logonobg.png" className="h-9 w-9 object-contain drop-shadow-[0_0_8px_rgba(0,212,255,0.4)]" />
+                                <img src={logoUrl} className="h-9 w-9 object-contain drop-shadow-[0_0_8px_rgba(0,212,255,0.4)]" />
                             </div>
                             <span className="font-montserrat font-black text-sm tracking-[0.2em] text-white uppercase italic">PRG <span className="text-neon-blue">RENTAL</span></span>
                         </div>
@@ -216,7 +217,7 @@ export default function Navbar() {
 
                             <div className="flex items-center gap-4 mb-5 transition-all duration-500">
                                 <div className="w-10 h-10 rounded-xl bg-black/40 flex items-center justify-center border border-white/10">
-                                    <img src="/src/assets/logonobg.png" className="h-7 w-7 object-contain drop-shadow-[0_0_10px_rgba(0,212,255,0.4)]" />
+                                    <img src={logoUrl} className="h-7 w-7 object-contain drop-shadow-[0_0_10px_rgba(0,212,255,0.4)]" />
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-[12px] font-montserrat font-black tracking-widest text-white italic leading-none">

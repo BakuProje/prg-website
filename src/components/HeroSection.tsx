@@ -1,4 +1,7 @@
 import Scene3D from './Scene3D';
+import bannerUrl from '../assets/banner.jpg';
+import gemboxUrl from '../assets/Gembox.png';
+import logoUrl from '../assets/logonobg.png';
 
 export default function HeroSection() {
     return (
@@ -10,14 +13,14 @@ export default function HeroSection() {
             <div className="absolute inset-0 z-0">
                 {/* Desktop Background (Windows/PC) */}
                 <img
-                    src="/src/assets/banner.jpg"
+                    src={bannerUrl}
                     alt="PlayStation Racing Game Desktop"
                     className="hidden md:block w-full h-full object-cover object-center"
                     loading="eager"
                 />
                 {/* Mobile Background (Android/Apple) */}
                 <img
-                    src="/src/assets/Gembox.png"
+                    src={gemboxUrl}
                     alt="PlayStation Racing Game Mobile"
                     className="block md:hidden w-full h-full object-cover object-center"
                     loading="eager"
@@ -44,7 +47,7 @@ export default function HeroSection() {
                 {/* Logo Badge */}
                 <div className="inline-flex items-center gap-3 glass-card px-5 py-2.5 rounded-full mb-8 animate-float">
                     <img
-                        src="/src/assets/logonobg.png"
+                        src={logoUrl}
                         alt="Logo"
                         className="h-8 w-8 object-contain"
                     />

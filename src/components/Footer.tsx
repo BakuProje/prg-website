@@ -1,3 +1,5 @@
+import logoUrl from '../assets/logonobg.png';
+
 export default function Footer() {
     return (
         <footer className="relative border-t border-white/5 py-8">
@@ -6,7 +8,7 @@ export default function Footer() {
                     {/* Logo + Name */}
                     <div className="flex items-center gap-3">
                         <img
-                            src="/src/assets/logonobg.png"
+                            src={logoUrl}
                             alt="PS Racing Game"
                             className="h-8 w-auto object-contain"
                         />
