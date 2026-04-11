@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useCartStore } from '../store/cartStore';
+import mapsImg from '../assets/maps.png';
+import sekarangImg from '../assets/sekarang.png';
+import cashImg from '../assets/cash.png';
+import qrisImg from '../assets/qris.png';
 
 const WHATSAPP_NUMBER = '6281527641306';
 
@@ -248,7 +252,7 @@ export default function CartModal() {
                                                     {isLocating ? (
                                                         <div className="w-4 h-4 border-2 border-t-transparent border-neon-blue rounded-full animate-spin" />
                                                     ) : (
-                                                        <img src="/src/assets/maps.png" alt="Detect" className="w-6 h-6 object-contain" />
+                                                        <img src={mapsImg} alt="Detect" className="w-6 h-6 object-contain" />
                                                     )}
                                                 </div>
                                                 <div className="text-left"><p className="text-sm font-montserrat font-bold text-white">Deteksi Otomatis</p><p className="text-[10px] text-gray-500">Akurasi GPS & Peta Terang</p></div>
@@ -291,7 +295,7 @@ export default function CartModal() {
                                         <button onClick={() => { setIsDeliveryDropdownOpen(!isDeliveryDropdownOpen); setIsPaymentDropdownOpen(false); setIsAddressDropdownOpen(false); }} className="w-full p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between transition-all hover:bg-white/10 active:scale-98 group">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-xl bg-neon-purple/10 flex items-center justify-center text-neon-purple group-hover:scale-110 transition-transform">
-                                                    {deliveryTime === 'sekarang' ? <img src="/src/assets/sekarang.png" className="h-6 object-contain" /> : deliveryTime === 'nanti' ? '📅' : '⏰'}
+                                                    {deliveryTime === 'sekarang' ? <img src={sekarangImg} className="h-6 object-contain" /> : deliveryTime === 'nanti' ? '📅' : '⏰'}
                                                 </div>
                                                 <span className={`text-sm font-montserrat font-bold uppercase tracking-wider ${deliveryTime ? 'text-white' : 'text-gray-500 italic'}`}>{deliveryTime || 'Pilih Waktu...'}</span>
                                             </div>
@@ -301,7 +305,7 @@ export default function CartModal() {
                                             <div className="p-2 rounded-2xl bg-black/40 border border-white/5 scale-up-center space-y-1">
                                                 <button onClick={() => { setDeliveryTime('sekarang'); setIsDeliveryDropdownOpen(false); }} className={`w-full p-3 rounded-xl flex items-center gap-4 transition-all ${deliveryTime === 'sekarang' ? 'bg-neon-purple/20 border-neon-purple/30' : 'hover:bg-white/5'}`}>
                                                     <div className="w-10 h-10 rounded-full bg-neon-purple/10 flex items-center justify-center">
-                                                        <img src="/src/assets/sekarang.png" alt="Now" className="h-6 object-contain" />
+                                                        <img src={sekarangImg} alt="Now" className="h-6 object-contain" />
                                                     </div>
                                                     <div className="text-left">
                                                         <p className="text-sm font-montserrat font-bold text-white uppercase italic">Sekarang</p>
@@ -325,7 +329,7 @@ export default function CartModal() {
                                         <button onClick={() => { setIsPaymentDropdownOpen(!isPaymentDropdownOpen); setIsDeliveryDropdownOpen(false); setIsAddressDropdownOpen(false); }} className="w-full p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between transition-all hover:bg-white/10 active:scale-98 group">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                                    {paymentMethod ? <img src={`/src/assets/${paymentMethod}.png`} className="h-6 object-contain" /> : <span className="text-green-400">💵</span>}
+                                                    {paymentMethod ? <img src={paymentMethod === 'cash' ? cashImg : qrisImg} className="h-6 object-contain" /> : <span className="text-green-400">💵</span>}
                                                 </div>
                                                 <span className={`text-sm font-montserrat font-bold uppercase tracking-wider ${paymentMethod ? 'text-white' : 'text-gray-500 italic'}`}>{paymentMethod || 'Metode Bayar...'}</span>
                                             </div>
@@ -335,7 +339,7 @@ export default function CartModal() {
                                             <div className="p-2 rounded-2xl bg-black/40 border border-white/5 scale-up-center space-y-1">
                                                 <button onClick={() => { setPaymentMethod('cash'); setIsPaymentDropdownOpen(false); }} className={`w-full p-3 rounded-xl flex items-center gap-4 transition-all ${paymentMethod === 'cash' ? 'bg-green-500/20 border-green-500/30' : 'hover:bg-white/5'}`}>
                                                     <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
-                                                        <img src="/src/assets/cash.png" className="h-6 object-contain" />
+                                                        <img src={cashImg} className="h-6 object-contain" />
                                                     </div>
                                                     <div className="text-left">
                                                         <p className="text-sm font-montserrat font-bold text-white uppercase italic">Cash / COD</p>
@@ -344,7 +348,7 @@ export default function CartModal() {
                                                 </button>
                                                 <button onClick={() => { setPaymentMethod('qris'); setIsPaymentDropdownOpen(false); }} className={`w-full p-3 rounded-xl flex items-center gap-4 transition-all ${paymentMethod === 'qris' ? 'bg-green-500/20 border-green-500/30' : 'hover:bg-white/5'}`}>
                                                     <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
-                                                        <img src="/src/assets/qris.png" className="h-6 object-contain" />
+                                                        <img src={qrisImg} className="h-6 object-contain" />
                                                     </div>
                                                     <div className="text-left">
                                                         <p className="text-sm font-montserrat font-bold text-white uppercase italic">QRIS / E-Wallet</p>
@@ -397,7 +401,7 @@ export default function CartModal() {
                         
                         {/* Icon */}
                         <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-neon-blue/20 to-neon-purple/20 flex items-center justify-center mx-auto mb-6 border border-white/10 shadow-lg relative">
-                            <img src="/src/assets/maps.png" alt="Location" className="w-10 h-10 object-contain relative z-10" />
+                            <img src={mapsImg} alt="Location" className="w-10 h-10 object-contain relative z-10" />
                             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-neon-blue/30 to-transparent blur-sm rounded-b-3xl" />
                         </div>
                         

@@ -5,13 +5,25 @@ import CartModal from './components/CartModal';
 import ContactSection from './components/ContactSection';
 import Scene3D from './components/Scene3D';
 import type { Product } from './types';
+import tvLandscapeImg from './assets/TV ONLY LANDSCAPE.jpg';
+import tvAnalogImg from './assets/TV ANALOG.png';
+import tvAndroidVid from './assets/TV ANDROID.mp4';
+import ps3TvLandscapeImg from './assets/PS3 DAN TV LANDSCAPE.jpg';
+import ps3Vid from './assets/PS 3.mp4';
+import ps3OnlyLandscapeImg from './assets/PS 3 ONLY LANDSCAPE.jpg';
+import ps4TvLandscapeImg from './assets/PS4 DAN TV LANDSCAPE.jpg';
+import ps4OfflineVid from './assets/PS 4 OFFLINE.mp4';
+import ps4OnlineVid from './assets/PS 4 ONLINE.mp4';
+import ps4OnlyLandscapeImg from './assets/PS4 ONLY LANDSCAPE.jpg';
+import playboxImg from './assets/PLAYBOX.jpeg';
+import ps5Img from './assets/PS5.jpeg';
 
 const products: Product[] = [
     {
         id: 'tv-only',
         name: 'TV Only',
         price: 60000,
-        cover: '/src/assets/TV ONLY LANDSCAPE.jpg',
+        cover: tvLandscapeImg,
         description: 'Sewa TV saja, cocok untuk yang sudah punya PS atau nonton film, nonton bola',
         rating: 4.8,
         hasVariant: true,
@@ -21,14 +33,14 @@ const products: Product[] = [
                 name: 'TV Analog',
                 price: 60000,
                 description: 'TV LED standar Cocok Mengunakan Set top box',
-                cover: '/src/assets/TV ANALOG.png',
+                cover: tvAnalogImg,
             },
             {
                 id: 'tv-android',
                 name: 'TV Android',
                 price: 60000,
                 description: 'Smart TV Android dengan fitur lengkap, bisa YouTube dan Netflix.',
-                videoUrl: '/src/assets/TV ANDROID.mp4',
+                videoUrl: tvAndroidVid,
             }
         ]
     },
@@ -36,8 +48,8 @@ const products: Product[] = [
         id: 'ps3-tv',
         name: 'PS 3 + TV',
         price: 80000,
-        cover: '/src/assets/PS3 DAN TV LANDSCAPE.jpg',
-        videoUrl: '/src/assets/PS 3.mp4',
+        cover: ps3TvLandscapeImg,
+        videoUrl: ps3Vid,
         description: ' PS3 dengan TV dan stik di berikan 4, cocok bermain dengan teman/keluarga di rumah',
         rating: 5.0,
     },
@@ -45,8 +57,8 @@ const products: Product[] = [
         id: 'ps3-only',
         name: 'PS 3 Only',
         price: 65000,
-        cover: '/src/assets/PS 3 ONLY LANDSCAPE.jpg',
-        videoUrl: '/src/assets/PS 3.mp4',
+        cover: ps3OnlyLandscapeImg,
+        videoUrl: ps3Vid,
         description: 'PS3 saja dan stik di berikan 4, tanpa TV. Cocok jika kamu sudah punya monitor atau TV sendiri.',
         rating: 4.9,
     },
@@ -54,7 +66,7 @@ const products: Product[] = [
         id: 'ps4-tv',
         name: 'PS 4 + TV',
         price: 135000,
-        cover: '/src/assets/PS4 DAN TV LANDSCAPE.jpg',
+        cover: ps4TvLandscapeImg,
         description: 'PS4 dengan TV dan . Tersedia pilihan offline dan online. Kamu menyesuaikan dengan kebutuhanmu.',
         hasVariant: true,
         rating: 5.0,
@@ -63,14 +75,14 @@ const products: Product[] = [
                 id: 'ps4-tv-offline',
                 name: 'PS 4 OFFLINE + TV',
                 price: 135000,
-                videoUrl: '/src/assets/PS 4 OFFLINE.mp4',
+                videoUrl: ps4OfflineVid,
                 description: 'Main game offline tanpa internet. Cocok untuk single player dan co-op lokal. Nikmati game-game populer tanpa perlu koneksi internet.',
             },
             {
                 id: 'ps4-tv-online',
                 name: 'PS 4 ONLINE + TV',
                 price: 135000,
-                videoUrl: '/src/assets/PS 4 ONLINE.mp4',
+                videoUrl: ps4OnlineVid,
                 description: 'Main game online dengan pemain lain dari seluruh dunia. Membutuhkan koneksi internet yang stabil untuk bermain secara online player.',
             },
         ],
@@ -79,7 +91,7 @@ const products: Product[] = [
         id: 'ps4-only',
         name: 'PS 4 Only',
         price: 100000,
-        cover: '/src/assets/PS4 ONLY LANDSCAPE.jpg',
+        cover: ps4OnlyLandscapeImg,
         description: 'PS4 saja tanpa TV dan stik di berikan 3 . Tersedia pilihan offline dan online. Kamu menyesuaikan dengan kebutuhanmu.',
         hasVariant: true,
         rating: 4.9,
@@ -88,14 +100,14 @@ const products: Product[] = [
                 id: 'ps4-only-offline',
                 name: 'PS 4 OFFLINE (ONLY)',
                 price: 100000,
-                videoUrl: '/src/assets/PS 4 OFFLINE.mp4',
+                videoUrl: ps4OfflineVid,
                 description: 'Main game offline tanpa internet. Cocok untuk single player dan co-op lokal.',
             },
             {
                 id: 'ps4-only-online',
                 name: 'PS 4 ONLINE (ONLY)',
                 price: 100000,
-                videoUrl: '/src/assets/PS 4 ONLINE.mp4',
+                videoUrl: ps4OnlineVid,
                 description: 'Main game online dengan pemain lain. Membutuhkan koneksi internet yang stabil untuk bermain secara online player.',
             },
         ],
@@ -104,7 +116,7 @@ const products: Product[] = [
         id: 'playbox',
         name: 'Playbox',
         price: 0,
-        cover: '/src/assets/PLAYBOX.jpeg',
+        cover: playboxImg,
         description: 'Segera hadir! Playbox.',
         comingSoon: true,
         rating: 1.0,
@@ -113,7 +125,7 @@ const products: Product[] = [
         id: 'ps5',
         name: 'PS 5',
         price: 0,
-        cover: '/src/assets/PS5.jpeg',
+        cover: ps5Img,
         description: 'Segera hadir! PlayStation 5.',
         comingSoon: true,
         rating: 1.0,
