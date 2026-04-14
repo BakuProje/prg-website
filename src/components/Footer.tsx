@@ -25,7 +25,7 @@ export default function Footer() {
                     {/* Social Links */}
                     <div className="flex items-center gap-3">
                         <a
-                            href="https://wa.me/6281527641306"
+                            href="https://wa.me/6282349918631"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-8 h-8 rounded-lg bg-white/5 hover:bg-green-500/10 flex items-center justify-center transition-all duration-300 group"

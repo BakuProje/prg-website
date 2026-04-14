@@ -1,11 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useCartStore } from '../store/cartStore';
-import mapsImg from '../assets/maps.png';
-import sekarangImg from '../assets/sekarang.png';
-import cashImg from '../assets/cash.png';
-import qrisImg from '../assets/qris.png';
 
-const WHATSAPP_NUMBER = '6281527641306';
+const WHATSAPP_NUMBER = '6282349918631';
 
 export default function CartModal() {
     const {
@@ -98,7 +94,7 @@ export default function CartModal() {
         });
 
         // Generate Maps link based on coords or address text
-        const mapsUrl = coords 
+        const mapsUrl = coords
             ? `https://www.google.com/maps?q=${coords.lat},${coords.lng}`
             : `https://www.google.com/maps/search/${encodeURIComponent(address)}`;
 
@@ -129,13 +125,13 @@ export default function CartModal() {
                 setAddress(data.display_name || `Koor: ${latitude}, ${longitude}`);
                 setIsManualAddress(false);
             } catch { setAddress(`Koor: ${latitude}, ${longitude}`); }
-            finally { 
-                setIsLocating(false); 
+            finally {
+                setIsLocating(false);
                 setShowLocationModal(false);
             }
-        }, () => { 
-            alert('Gagal deteksi lokasi atau akses lokasi dilarang browser'); 
-            setIsLocating(false); 
+        }, () => {
+            alert('Gagal deteksi lokasi atau akses lokasi dilarang browser');
+            setIsLocating(false);
             setShowLocationModal(false);
         }, { enableHighAccuracy: true });
     };
@@ -144,9 +140,9 @@ export default function CartModal() {
         <div className={`fixed inset-0 z-[200] flex justify-end transition-all duration-500 ${isCartOpen ? 'visible' : 'invisible pointer-events-none'}`} onClick={closeCart}>
             {/* Backdrop Overlay with Blur */}
             <div className={`absolute inset-0 bg-black/70 backdrop-blur-md transition-opacity duration-500 ${isCartOpen ? 'opacity-100' : 'opacity-0'}`} />
-            
+
             {/* Drawer Container */}
-            <div 
+            <div
                 className={`relative w-full sm:w-[450px] h-full bg-[#0d0d12] border-l border-white/10 shadow-[-20px_0_60px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCartOpen ? 'translate-x-0' : 'translate-x-full opacity-0'}`}
                 onClick={(e) => e.stopPropagation()}
             >
@@ -154,8 +150,8 @@ export default function CartModal() {
                 <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
                     <div className="stars-container">
                         {[...Array(20)].map((_, i) => (
-                            <div key={i} className="star" style={{ 
-                                left: `${Math.random() * 100}%`, 
+                            <div key={i} className="star" style={{
+                                left: `${Math.random() * 100}%`,
                                 top: `${Math.random() * 100}%`,
                                 animationDelay: `${Math.random() * 5}s`,
                                 transform: `scale(${Math.random()})`
@@ -252,7 +248,7 @@ export default function CartModal() {
                                                     {isLocating ? (
                                                         <div className="w-4 h-4 border-2 border-t-transparent border-neon-blue rounded-full animate-spin" />
                                                     ) : (
-                                                        <img src={mapsImg} alt="Detect" className="w-6 h-6 object-contain" />
+                                                        <img src="/src/assets/maps.png" alt="Detect" className="w-6 h-6 object-contain" />
                                                     )}
                                                 </div>
                                                 <div className="text-left"><p className="text-sm font-montserrat font-bold text-white">Deteksi Otomatis</p><p className="text-[10px] text-gray-500">Akurasi GPS & Peta Terang</p></div>
@@ -295,7 +291,7 @@ export default function CartModal() {
                                         <button onClick={() => { setIsDeliveryDropdownOpen(!isDeliveryDropdownOpen); setIsPaymentDropdownOpen(false); setIsAddressDropdownOpen(false); }} className="w-full p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between transition-all hover:bg-white/10 active:scale-98 group">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-xl bg-neon-purple/10 flex items-center justify-center text-neon-purple group-hover:scale-110 transition-transform">
-                                                    {deliveryTime === 'sekarang' ? <img src={sekarangImg} className="h-6 object-contain" /> : deliveryTime === 'nanti' ? '📅' : '⏰'}
+                                                    {deliveryTime === 'sekarang' ? <img src="/src/assets/sekarang.png" className="h-6 object-contain" /> : deliveryTime === 'nanti' ? '📅' : '⏰'}
                                                 </div>
                                                 <span className={`text-sm font-montserrat font-bold uppercase tracking-wider ${deliveryTime ? 'text-white' : 'text-gray-500 italic'}`}>{deliveryTime || 'Pilih Waktu...'}</span>
                                             </div>
@@ -305,7 +301,7 @@ export default function CartModal() {
                                             <div className="p-2 rounded-2xl bg-black/40 border border-white/5 scale-up-center space-y-1">
                                                 <button onClick={() => { setDeliveryTime('sekarang'); setIsDeliveryDropdownOpen(false); }} className={`w-full p-3 rounded-xl flex items-center gap-4 transition-all ${deliveryTime === 'sekarang' ? 'bg-neon-purple/20 border-neon-purple/30' : 'hover:bg-white/5'}`}>
                                                     <div className="w-10 h-10 rounded-full bg-neon-purple/10 flex items-center justify-center">
-                                                        <img src={sekarangImg} alt="Now" className="h-6 object-contain" />
+                                                        <img src="/src/assets/sekarang.png" alt="Now" className="h-6 object-contain" />
                                                     </div>
                                                     <div className="text-left">
                                                         <p className="text-sm font-montserrat font-bold text-white uppercase italic">Sekarang</p>
@@ -329,7 +325,7 @@ export default function CartModal() {
                                         <button onClick={() => { setIsPaymentDropdownOpen(!isPaymentDropdownOpen); setIsDeliveryDropdownOpen(false); setIsAddressDropdownOpen(false); }} className="w-full p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between transition-all hover:bg-white/10 active:scale-98 group">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                                    {paymentMethod ? <img src={paymentMethod === 'cash' ? cashImg : qrisImg} className="h-6 object-contain" /> : <span className="text-green-400">💵</span>}
+                                                    {paymentMethod ? <img src={`/src/assets/${paymentMethod}.png`} className="h-6 object-contain" /> : <span className="text-green-400">💵</span>}
                                                 </div>
                                                 <span className={`text-sm font-montserrat font-bold uppercase tracking-wider ${paymentMethod ? 'text-white' : 'text-gray-500 italic'}`}>{paymentMethod || 'Metode Bayar...'}</span>
                                             </div>
@@ -339,7 +335,7 @@ export default function CartModal() {
                                             <div className="p-2 rounded-2xl bg-black/40 border border-white/5 scale-up-center space-y-1">
                                                 <button onClick={() => { setPaymentMethod('cash'); setIsPaymentDropdownOpen(false); }} className={`w-full p-3 rounded-xl flex items-center gap-4 transition-all ${paymentMethod === 'cash' ? 'bg-green-500/20 border-green-500/30' : 'hover:bg-white/5'}`}>
                                                     <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
-                                                        <img src={cashImg} className="h-6 object-contain" />
+                                                        <img src="/src/assets/cash.png" className="h-6 object-contain" />
                                                     </div>
                                                     <div className="text-left">
                                                         <p className="text-sm font-montserrat font-bold text-white uppercase italic">Cash / COD</p>
@@ -348,7 +344,7 @@ export default function CartModal() {
                                                 </button>
                                                 <button onClick={() => { setPaymentMethod('qris'); setIsPaymentDropdownOpen(false); }} className={`w-full p-3 rounded-xl flex items-center gap-4 transition-all ${paymentMethod === 'qris' ? 'bg-green-500/20 border-green-500/30' : 'hover:bg-white/5'}`}>
                                                     <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
-                                                        <img src={qrisImg} className="h-6 object-contain" />
+                                                        <img src="/src/assets/qris.png" className="h-6 object-contain" />
                                                     </div>
                                                     <div className="text-left">
                                                         <p className="text-sm font-montserrat font-bold text-white uppercase italic">QRIS / E-Wallet</p>
@@ -371,7 +367,7 @@ export default function CartModal() {
                             <p className="text-[10px] font-montserrat font-black text-gray-400 uppercase tracking-widest">Total Bayar</p>
                             <p className="text-2xl font-montserrat font-black text-white italic">Rp {totalPrice.toLocaleString('id-ID')}</p>
                         </div>
-                        <button 
+                        <button
                             onClick={handleWhatsApp}
                             disabled={!address || !deliveryTime || !paymentMethod}
                             className={`w-full py-5 rounded-2xl font-montserrat font-black text-xs uppercase tracking-[0.2em] text-white flex items-center justify-center gap-3 transition-all active:scale-95 shadow-[0_15px_30px_-10px_rgba(37,211,102,0.4)] ${(!address || !deliveryTime || !paymentMethod) ? 'opacity-40 grayscale cursor-not-allowed' : 'hover:-translate-y-1 hover:shadow-[0_20px_40px_-5px_rgba(37,211,102,0.5)]'}`}
@@ -386,35 +382,35 @@ export default function CartModal() {
 
             {/* Modern Location Permission Modal */}
             {showLocationModal && (
-                <div 
+                <div
                     className="fixed inset-0 z-[300] flex items-center justify-center p-6 animate-fade-in"
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setShowLocationModal(false)} />
-                    
-                    <div 
+
+                    <div
                         className="relative w-full max-w-sm bg-[#12121a] border border-white/10 rounded-[2.5rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.8)] p-8 text-center animate-modal-scale"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Neon Glow Corner */}
                         <div className="absolute -top-10 -right-10 w-32 h-32 bg-neon-blue/20 rounded-full blur-[40px] pointer-events-none" />
-                        
+
                         {/* Icon */}
                         <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-neon-blue/20 to-neon-purple/20 flex items-center justify-center mx-auto mb-6 border border-white/10 shadow-lg relative">
-                            <img src={mapsImg} alt="Location" className="w-10 h-10 object-contain relative z-10" />
+                            <img src="/src/assets/maps.png" alt="Location" className="w-10 h-10 object-contain relative z-10" />
                             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-neon-blue/30 to-transparent blur-sm rounded-b-3xl" />
                         </div>
-                        
+
                         <h3 className="text-2xl font-montserrat font-black text-white italic uppercase tracking-tight mb-3">
                             Aktifkan <span className="text-neon-blue">Lokasi?</span>
                         </h3>
-                        
+
                         <p className="text-gray-400 text-sm font-inter leading-relaxed mb-8">
                             Kami butuh lokasi Anda untuk menentukan alamat pengantaran secara otomatis agar lebih akurat dan mempercepat pengiriman pesanan Anda.
                         </p>
-                        
+
                         <div className="space-y-3">
-                            <button 
+                            <button
                                 onClick={triggerGeolocation}
                                 disabled={isLocating}
                                 className={`w-full py-4 rounded-2xl font-montserrat font-black text-xs uppercase tracking-[0.2em] text-white flex items-center justify-center gap-3 transition-all shadow-[0_15px_30px_-10px_rgba(0,212,255,0.4)] ${isLocating ? 'opacity-70 scale-98 shadow-none' : 'hover:-translate-y-1 active:scale-95'}`}
@@ -434,15 +430,15 @@ export default function CartModal() {
                                     </>
                                 )}
                             </button>
-                            
-                            <button 
+
+                            <button
                                 onClick={() => setShowLocationModal(false)}
                                 className="w-full py-4 rounded-2xl font-montserrat font-black text-[10px] uppercase tracking-[0.2em] text-gray-500 hover:text-white transition-colors"
                             >
                                 NANTI SAJA
                             </button>
                         </div>
-                        
+
                         {/* Bottom Decor */}
                         <div className="mt-8 pt-6 border-t border-white/5">
                             <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-gray-600 uppercase tracking-widest">
@@ -454,7 +450,7 @@ export default function CartModal() {
                     </div>
                 </div>
             )}
-            
+
             <style>{`
                 .star { position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0; animation: twinkle 5s infinite; }
                 @keyframes twinkle { 

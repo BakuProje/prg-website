@@ -82,7 +82,7 @@ export default function HeroSection() {
                         Produk Rental
                     </a>
                     <a
-                        href="https://wa.me/6281527641306"
+                        href="https://wa.me/6282349918631"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-outline text-xs sm:text-base px-4 sm:px-8 py-3.5 flex-1 sm:flex-none justify-center inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap"

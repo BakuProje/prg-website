@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { Product, ProductVariant } from '../types';
 import { useCartStore } from '../store/cartStore';
-import tvAnalogImg from '../assets/TV ANALOG.png';
-import tvAndroidImg from '../assets/TV Android.jpeg';
-import ps4TvSetupImg from '../assets/PS 4 SETUP LANDCAPE.png';
-import ps3TvSetupImg from '../assets/PS 3 DAN TV SETUP.jpg';
-import ps3Img from '../assets/ps3.jpeg';
-import ps4Img from '../assets/ps4.jpeg';
+
 interface ProductCardProps {
     product: Product;
 }
@@ -264,8 +259,8 @@ export default function ProductCard({ product }: ProductCardProps) {
                                         <h4 className="font-montserrat font-bold text-white text-sm tracking-wide uppercase opacity-60">Pilihan TV</h4>
                                         <div className="grid grid-cols-2 gap-3">
                                             {[
-                                                { label: 'TV Analog', src: tvAnalogImg },
-                                                { label: 'TV Android', src: tvAndroidImg }
+                                                { label: 'TV Analog', src: '/src/assets/TV ANALOG.png' },
+                                                { label: 'TV Android', src: '/src/assets/TV Android.jpeg' }
                                             ].map(item => (
                                                 <div
                                                     key={item.label}
@@ -383,10 +378,10 @@ export default function ProductCard({ product }: ProductCardProps) {
                                                 <div className="grid grid-cols-2 gap-3">
                                                     <div
                                                         onClick={() => {
-                                                            let itemsImg = ps4Img;
-                                                            if (product.id === 'ps4-tv') itemsImg = ps4TvSetupImg;
-                                                            else if (product.id === 'ps3-tv') itemsImg = ps3TvSetupImg;
-                                                            else if (product.id.includes('ps3')) itemsImg = ps3Img;
+                                                            let itemsImg = '/src/assets/ps4.jpeg';
+                                                            if (product.id === 'ps4-tv') itemsImg = '/src/assets/PS 4 SETUP LANDCAPE.png';
+                                                            else if (product.id === 'ps3-tv') itemsImg = '/src/assets/PS 3 DAN TV SETUP.jpg';
+                                                            else if (product.id.includes('ps3')) itemsImg = '/src/assets/ps3.jpeg';
 
                                                             setEnlargedMedia({
                                                                 type: 'image',
@@ -398,10 +393,10 @@ export default function ProductCard({ product }: ProductCardProps) {
                                                     >
                                                         <img
                                                             src={
-                                                                product.id === 'ps4-tv' ? ps4TvSetupImg : 
-                                                                product.id === 'ps3-tv' ? ps3TvSetupImg :
-                                                                product.id.includes('ps3') ? ps3Img : 
-                                                                ps4Img
+                                                                product.id === 'ps4-tv' ? '/src/assets/PS 4 SETUP LANDCAPE.png' : 
+                                                                product.id === 'ps3-tv' ? '/src/assets/PS 3 DAN TV SETUP.jpg' :
+                                                                product.id.includes('ps3') ? '/src/assets/ps3.jpeg' : 
+                                                                '/src/assets/ps4.jpeg'
                                                             }
                                                             alt="Kelengkapan"
                                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

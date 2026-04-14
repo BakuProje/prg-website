@@ -8,7 +8,7 @@ export default function ContactSection() {
             <div className="absolute inset-0 grid-bg opacity-40" />
             <div className="absolute top-0 left-1/4 w-80 h-80 bg-neon-blue/3 rounded-full blur-[120px]" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-purple/3 rounded-full blur-[120px]" />
-            
+
             {/* 3D Scene Effect */}
             <div className="absolute inset-0 z-[2]">
                 <Scene3D />
@@ -47,7 +47,7 @@ export default function ContactSection() {
                                 </div>
                             </div>
                             <a
-                                href="https://wa.me/6281527641306"
+                                href="https://wa.me/6282349918631"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full py-3 rounded-xl font-montserrat font-semibold text-sm text-white flex items-center justify-center gap-2 transition-all duration-300"
