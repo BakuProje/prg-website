@@ -89,6 +89,8 @@ export default function ProductCard({ product }: ProductCardProps) {
                                     src={product.cover}
                                     alt={product.name}
                                     className="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110"
+                                    loading="eager"
+                                    decoding="async"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
                             </>
@@ -153,7 +155,8 @@ export default function ProductCard({ product }: ProductCardProps) {
                         src={product.cover}
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        loading="lazy"
+                        loading="eager"
+                        decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
 

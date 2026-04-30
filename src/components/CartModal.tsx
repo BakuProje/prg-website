@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useCartStore } from '../store/cartStore';
+import { useMember } from '../hooks/useMember';
 
 // Asset Imports
 import mapsImg from '../assets/maps.png';
@@ -93,7 +94,10 @@ export default function CartModal() {
         setCoords(null);
     }, [isCartOpen]);
 
-    const totalPrice = getTotalPrice();
+    const { profile, discountPercentage } = useMember();
+    const totalPriceRaw = getTotalPrice();
+    const discountAmount = (totalPriceRaw * (discountPercentage || 0)) / 100;
+    const totalPrice = totalPriceRaw - discountAmount;
 
     const handleWhatsApp = () => {
         if (items.length === 0) return;
@@ -109,7 +113,16 @@ export default function CartModal() {
             ? `https://www.google.com/maps?q=${coords.lat},${coords.lng}`
             : `https://www.google.com/maps/search/${encodeURIComponent(address)}`;
 
+        if (discountPercentage > 0) {
+            message += `Subtotal: Rp ${totalPriceRaw.toLocaleString('id-ID')}\n`;
+            message += `Diskon Member (${discountPercentage}%): -Rp ${discountAmount.toLocaleString('id-ID')}\n`;
+        }
         message += `Total: Rp ${totalPrice.toLocaleString('id-ID')}\n\n`;
+
+        if (profile) {
+            message += `Member: ${profile.full_name}\n`;
+        }
+
         message += `Alamat: ${address || '-'}\n`;
         message += `Klik untuk Lokasi: ${mapsUrl}\n\n`;
         message += `Waktu antar: ${deliveryTime === 'sekarang' ? 'Sekarang' : 'Nanti'}\n`;
@@ -374,6 +387,18 @@ export default function CartModal() {
                 {/* Footer Action */}
                 {items.length > 0 && (
                     <div className="p-6 border-t border-white/5 bg-[#0d0d12] relative z-10">
+                        {discountPercentage > 0 && (
+                            <div className="space-y-2 mb-4 px-1 border-b border-white/5 pb-4">
+                                <div className="flex items-center justify-between">
+                                    <p className="text-[10px] font-montserrat font-bold text-gray-500 uppercase tracking-widest">Subtotal</p>
+                                    <p className="text-sm font-montserrat font-bold text-white">Rp {totalPriceRaw.toLocaleString('id-ID')}</p>
+                                </div>
+                                <div className="flex items-center justify-between text-neon-blue">
+                                    <p className="text-[10px] font-montserrat font-bold uppercase tracking-widest">Diskon Member ({discountPercentage}%)</p>
+                                    <p className="text-sm font-montserrat font-bold">-Rp {discountAmount.toLocaleString('id-ID')}</p>
+                                </div>
+                            </div>
+                        )}
                         <div className="flex items-center justify-between mb-6 px-1">
                             <p className="text-[10px] font-montserrat font-black text-gray-400 uppercase tracking-widest">Total Bayar</p>
                             <p className="text-2xl font-montserrat font-black text-white italic">Rp {totalPrice.toLocaleString('id-ID')}</p>

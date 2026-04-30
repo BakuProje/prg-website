@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useCartStore } from '../store/cartStore';
+import { supabase } from '../lib/supabase';
 import logoUrl from '../assets/logonobg.png';
 
 export default function Navbar() {
@@ -69,6 +70,13 @@ export default function Navbar() {
             id: 'contact',
             icon: (color: string) => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
         },
+        {
+            label: 'Loyalty Area',
+            href: '/dashboard',
+            id: 'member',
+            isRoute: true,
+            icon: (color: string) => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+        },
     ];
 
     const handleNavClick = () => setMobileOpen(false);
@@ -84,7 +92,7 @@ export default function Navbar() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16 sm:h-20">
                         {/* Logo */}
-                        <a href="#beranda" className="flex items-center gap-3 group">
+                        <a href="/#beranda" className="flex items-center gap-3 group">
                             <img
                                 src={logoUrl}
                                 alt="Logo"
@@ -112,6 +120,7 @@ export default function Navbar() {
                                 );
                             })}
                         </div>
+
 
                         {/* Right side */}
                         <div className="flex items-center gap-3">
@@ -186,7 +195,7 @@ export default function Navbar() {
                                     key={link.href}
                                     href={link.href}
                                     onClick={handleNavClick}
-                                    className={`group flex items-center gap-4 px-6 py-5 rounded-[22px] transition-all duration-500 ${isActive
+                                    className={`group flex items-center gap-4 px-6 py-4 rounded-[22px] transition-all duration-500 ${isActive
                                         ? 'bg-gradient-to-r from-neon-blue/20 via-neon-blue/10 to-transparent border border-neon-blue/20 shadow-[0_0_30px_rgba(0,212,255,0.15)]'
                                         : 'hover:bg-white/5 border border-transparent'
                                         }`}
@@ -211,7 +220,7 @@ export default function Navbar() {
                         })}
                     </div>
 
-                    <div className="mt-auto pt-10 relative z-10">
+                    <div className="mt-auto pt-4 relative z-10">
                         <div className="p-6 rounded-[32px] bg-gradient-to-br from-white/5 to-transparent border border-white/5 relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-neon-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
@@ -227,7 +236,7 @@ export default function Navbar() {
                                 </div>
                             </div>
                             <p className="text-[10px] leading-relaxed uppercase tracking-[0.3em] font-montserrat font-black italic bg-gradient-to-r from-neon-blue via-neon-purple to-neon-magenta bg-clip-text text-transparent animate-pulse whitespace-normal">
-                                PRG WEBSITE OFFICIAL RENTAL PLAYSTATION
+                                PRG WEBSITE OFFICIAL
                             </p>
                         </div>
                     </div>
