@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCartStore } from '../store/cartStore';
 import { supabase } from '../lib/supabase';
 import logoUrl from '../assets/logonobg.png';
@@ -9,6 +9,8 @@ export default function Navbar() {
     const { openCart } = useCartStore();
     const [itemCount, setItemCount] = useState(0);
     const [activeSection, setActiveSection] = useState('beranda');
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -105,18 +107,23 @@ export default function Navbar() {
                             </div>
                         </a>
 
-                        {/* Desktop Nav */}
                         <div className="hidden md:flex items-center gap-1">
                             {navLinks.map((link) => {
-                                const isActive = activeSection === link.id;
+                                const isActive = activeSection === link.id || (link.isRoute && location.pathname === link.href);
                                 return (
-                                    <a
+                                    <button
                                         key={link.href}
-                                        href={link.href}
+                                        onClick={() => {
+                                            if (link.isRoute) {
+                                                navigate(link.href);
+                                            } else {
+                                                window.location.href = link.href;
+                                            }
+                                        }}
                                         className={`relative px-6 py-2 text-xs font-montserrat font-black uppercase tracking-widest transition-all duration-300 ${isActive ? 'text-neon-blue' : 'text-gray-400 hover:text-white'}`}
                                     >
                                         {link.label}
-                                    </a>
+                                    </button>
                                 );
                             })}
                         </div>
@@ -188,14 +195,20 @@ export default function Navbar() {
 
                     <div className="flex flex-col gap-4 relative z-10">
                         {navLinks.map((link, i) => {
-                            const isActive = activeSection === link.id;
+                            const isActive = activeSection === link.id || (link.isRoute && location.pathname === link.href);
                             const linkColor = isActive ? '#00d4ff' : '#4b5563';
                             return (
-                                <a
+                                <button
                                     key={link.href}
-                                    href={link.href}
-                                    onClick={handleNavClick}
-                                    className={`group flex items-center gap-4 px-6 py-4 rounded-[22px] transition-all duration-500 ${isActive
+                                    onClick={() => {
+                                        if (link.isRoute) {
+                                            navigate(link.href);
+                                        } else {
+                                            window.location.href = link.href;
+                                        }
+                                        setMobileOpen(false);
+                                    }}
+                                    className={`group flex items-center gap-4 px-6 py-4 rounded-[22px] transition-all duration-500 w-full ${isActive
                                         ? 'bg-gradient-to-r from-neon-blue/20 via-neon-blue/10 to-transparent border border-neon-blue/20 shadow-[0_0_30px_rgba(0,212,255,0.15)]'
                                         : 'hover:bg-white/5 border border-transparent'
                                         }`}
@@ -207,7 +220,7 @@ export default function Navbar() {
                                         }`}>
                                         {link.icon(isActive ? '#fff' : 'currentColor')}
                                     </div>
-                                    <div className="flex flex-col">
+                                    <div className="flex flex-col text-left">
                                         <span className={`font-montserrat font-black text-sm uppercase tracking-[0.15em] transition-colors duration-300 ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-white'}`}>
                                             {link.label}
                                         </span>
@@ -215,7 +228,7 @@ export default function Navbar() {
                                             {isActive ? 'Kamu di sini' : 'Lihat Bagian Ini'}
                                         </span>
                                     </div>
-                                </a>
+                                </button>
                             );
                         })}
                     </div>
