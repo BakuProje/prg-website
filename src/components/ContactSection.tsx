@@ -108,8 +108,9 @@ export default function ContactSection() {
                                 <h3 className="font-montserrat font-bold text-white text-base">
                                     PS Gaming (Rental PS3 dan PS4)
                                 </h3>
-                                <p className="text-gray-400 font-inter text-sm mt-0.5">
-                                    Makassar, Sulawesi Selatan
+                                <p className="text-gray-400 font-inter text-[10px] mt-0.5 uppercase font-bold tracking-wider leading-relaxed">
+                                    Jl. Sukamaju I No.2B, Tamamaung,<br />
+                                    Kec. Panakkukang, Kota Makassar 90231
                                 </p>
                             </div>
                         </div>
@@ -136,7 +137,7 @@ export default function ContactSection() {
                     {/* Map */}
                     <div className="glass-card rounded-2xl overflow-hidden">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.7703647213425!2d119.43955147590296!3d-5.140633051988298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbefd0fcdc03983%3A0xe1ad0fda136ccb8f!2sPS%20gaming%20(Rental%20PS3%20dan%20PS4)!5e0!3m2!1sid!2sid!4v1774779282220!5m2!1sid!2sid"
+                            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3973.7702!2d119.4421264!3d-5.1406384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNcKwMDgnMjYuMyJTIDExOcKwMjYnMzEuNyJF!5e0!3m2!1sid!2sid!4v1714460000000!5m2!1sid!2sid"
                             width="100%"
                             height="300"
                             style={{ border: 0 }}
