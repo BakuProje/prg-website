@@ -52,7 +52,7 @@ export default function HeroSection() {
                         className="h-8 w-8 object-contain"
                     />
                     <span className="text-sm font-inter font-medium text-gray-300 tracking-wider uppercase">
-                        PS GAMING MAKASSAR
+                        PLAYSTATION RACING GAME
                     </span>
                 </div>
 

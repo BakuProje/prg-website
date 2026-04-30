@@ -106,7 +106,7 @@ export default function ContactSection() {
                             </div>
                             <div>
                                 <h3 className="font-montserrat font-bold text-white text-base">
-                                    PS Gaming (Rental PS3 dan PS4)
+                                    Playstation Racing Game (Rental PS3 dan PS4)
                                 </h3>
                                 <p className="text-gray-400 font-inter text-[10px] mt-0.5 uppercase font-bold tracking-wider leading-relaxed">
                                     Jl. Sukamaju I No.2B, Tamamaung,<br />
