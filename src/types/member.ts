@@ -10,6 +10,7 @@ export interface Profile {
     is_active: boolean;
     last_seen?: string;
     created_at: string;
+    password?: string;
 }
 
 export interface Message {

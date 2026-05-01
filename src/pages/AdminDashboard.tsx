@@ -38,7 +38,15 @@ import {
     UserPlus,
     ShieldAlert,
     Gamepad2,
-    Percent
+    Percent,
+    Share2,
+    Eye,
+    EyeOff,
+    Copy,
+    Instagram,
+    Facebook,
+    MessageCircle,
+    Send
 } from 'lucide-react';
 import ChatLoyalty from '../components/ChatLoyalty';
 import { Profile } from '../types/member';
@@ -104,6 +112,10 @@ export default function AdminDashboard() {
     const [newName, setNewName] = useState('');
     const [newRole, setNewRole] = useState<'player' | 'member' | 'subscriber'>('player');
     const [creating, setCreating] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [createdAccount, setCreatedAccount] = useState<{ name: string, email: string, pass: string } | null>(null);
+    const [showShareModal, setShowShareModal] = useState(false);
+    const [showMemberPassword, setShowMemberPassword] = useState(false);
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const navigate = useNavigate();
@@ -290,13 +302,45 @@ export default function AdminDashboard() {
 
             if (error) throw error;
 
-            // Update membership role in profile
+            // Update membership role and store password in profile
+            // Wait for Supabase trigger to create the profile row first
             if (data.user) {
-                await supabase
-                    .from('profiles')
-                    .update({ membership_role: newRole })
-                    .eq('id', data.user.id);
+                const maxRetries = 5;
+                let profileUpdated = false;
+                for (let i = 0; i < maxRetries; i++) {
+                    await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s
+                    const { data: existingProfile } = await supabase
+                        .from('profiles')
+                        .select('id')
+                        .eq('id', data.user!.id)
+                        .single();
+                    
+                    if (existingProfile) {
+                        const { error: updateErr } = await supabase
+                            .from('profiles')
+                            .update({ 
+                                membership_role: newRole,
+                                password: newPassword
+                            })
+                            .eq('id', data.user!.id);
+                        
+                        if (!updateErr) {
+                            profileUpdated = true;
+                            break;
+                        }
+                    }
+                }
+                if (!profileUpdated) {
+                    console.warn('Profile update may not have completed — password might not be saved.');
+                }
             }
+
+            setCreatedAccount({
+                name: newName,
+                email: normalizedEmail,
+                pass: newPassword
+            });
+            setShowShareModal(true);
 
             setModal({
                 show: true,
@@ -368,6 +412,14 @@ export default function AdminDashboard() {
             });
 
             if (rpcError) throw rpcError;
+
+            // Update password in profiles table for visibility
+            await supabase
+                .from('profiles')
+                .update({ password: newPassForMember })
+                .eq('id', selectedMember.id);
+
+            setSelectedMember({ ...selectedMember, password: newPassForMember });
 
             setModal({
                 show: true,
@@ -1073,14 +1125,23 @@ export default function AdminDashboard() {
                                         </div>
                                         <div className="space-y-3">
                                             <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] ml-2">Password</label>
-                                            <input
-                                                type="password"
-                                                required
-                                                value={newPassword}
-                                                onChange={(e) => setNewPassword(e.target.value)}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-neon-blue focus:ring-1 focus:ring-neon-blue/50 transition-all text-sm font-bold"
-                                                placeholder="••••••••"
-                                            />
+                                            <div className="relative group">
+                                                <input
+                                                    type={showNewPassword ? "text" : "password"}
+                                                    required
+                                                    value={newPassword}
+                                                    onChange={(e) => setNewPassword(e.target.value)}
+                                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 pr-14 text-white focus:outline-none focus:border-neon-blue focus:ring-1 focus:ring-neon-blue/50 transition-all text-sm font-bold"
+                                                    placeholder="••••••••"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowNewPassword(!showNewPassword)}
+                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+                                                >
+                                                    {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                                </button>
+                                            </div>
                                         </div>
                                         <div className="space-y-4">
                                             <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] ml-2">Select Membership Tier</label>
@@ -1504,24 +1565,54 @@ export default function AdminDashboard() {
                                     <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] px-2">Account Settings</h4>
 
                                     <div className="space-y-3">
+                                        <div className="px-2 flex items-center justify-between">
+                                            <label className="text-[8px] text-gray-500 font-black uppercase tracking-[0.2em]">Password Member</label>
+                                            <button
+                                                onClick={() => setShowMemberPassword(!showMemberPassword)}
+                                                className="text-[8px] font-black text-neon-blue uppercase tracking-widest hover:underline"
+                                            >
+                                                {showMemberPassword ? 'Sembunyikan' : 'Lihat Password'}
+                                            </button>
+                                        </div>
                                         <div className="relative group">
-                                            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-neon-blue transition-colors">
+                                            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500">
                                                 <Lock size={16} />
                                             </div>
                                             <input
-                                                type="text"
-                                                value={newPassForMember}
-                                                onChange={(e) => setNewPassForMember(e.target.value)}
-                                                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-5 pl-14 pr-32 text-white text-sm font-bold focus:outline-none focus:border-neon-blue/50 focus:bg-white/[0.05] transition-all"
-                                                placeholder="Set New Password"
+                                                type={showMemberPassword ? "text" : "password"}
+                                                readOnly
+                                                value={selectedMember.password || ''}
+                                                className="w-full bg-white/[0.02] border border-white/5 rounded-2xl py-5 pl-14 pr-5 text-gray-400 text-sm font-bold focus:outline-none"
+                                                placeholder={showMemberPassword ? "Data tidak tersedia" : "••••••••"}
                                             />
-                                            <button
-                                                onClick={handleUpdatePassword}
-                                                disabled={!newPassForMember}
-                                                className="absolute right-3 top-1/2 -translate-y-1/2 px-6 py-2.5 rounded-xl bg-neon-blue text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-neon-blue/20 hover:brightness-110 disabled:opacity-30 disabled:grayscale transition-all"
-                                            >
-                                                Update
-                                            </button>
+                                            {!selectedMember.password && (
+                                                <div className="absolute right-5 top-1/2 -translate-y-1/2 text-[7px] font-black text-yellow-500/40 uppercase tracking-widest text-right max-w-[80px] leading-tight">
+                                                    Akun Lama / Belum Sinkron
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="pt-2">
+                                            <label className="text-[8px] text-gray-500 font-black uppercase tracking-[0.2em] px-2">Reset Password</label>
+                                            <div className="relative group mt-2">
+                                                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-neon-blue transition-colors">
+                                                    <RotateCcw size={16} />
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    value={newPassForMember}
+                                                    onChange={(e) => setNewPassForMember(e.target.value)}
+                                                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-5 pl-14 pr-32 text-white text-sm font-bold focus:outline-none focus:border-neon-blue/50 focus:bg-white/[0.05] transition-all"
+                                                    placeholder="Set New Password"
+                                                />
+                                                <button
+                                                    onClick={handleUpdatePassword}
+                                                    disabled={!newPassForMember}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 px-6 py-2.5 rounded-xl bg-neon-blue text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-neon-blue/20 hover:brightness-110 disabled:opacity-30 disabled:grayscale transition-all"
+                                                >
+                                                    Update
+                                                </button>
+                                            </div>
                                         </div>
 
                                         {/* Membership Role Slider */}
@@ -1639,6 +1730,82 @@ export default function AdminDashboard() {
                                 <span className="group-hover:translate-x-1 transition-transform">LANJUTKAN</span>
                                 <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform" />
                             </div>
+                        </button>
+                    </div>
+                </div>
+            )}
+            {/* Account Share Modal */}
+            {showShareModal && createdAccount && (
+                <div className="fixed inset-0 z-[1100] flex items-center justify-center p-6">
+                    <div className="absolute inset-0 bg-black/90 backdrop-blur-xl animate-in fade-in duration-500" onClick={() => setShowShareModal(false)} />
+                    <div className="relative bg-[#0d0d12] border border-white/10 rounded-[40px] p-8 sm:p-10 w-full max-w-md shadow-2xl animate-in zoom-in-95 duration-500">
+                        <div className="flex flex-col items-center text-center mb-10">
+                            <div className="w-20 h-20 rounded-3xl bg-neon-blue/10 border border-neon-blue/20 flex items-center justify-center text-neon-blue mb-6">
+                                <Share2 size={40} />
+                            </div>
+                            <h3 className="text-2xl font-montserrat font-black italic uppercase text-white tracking-widest">KIRIM AKUN</h3>
+                            <p className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mt-2">Bagikan kredensial login ke member</p>
+                        </div>
+
+                        <div className="space-y-4 mb-10">
+                            <div className="bg-white/5 border border-white/5 rounded-3xl p-6 space-y-4">
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-[8px] font-black text-gray-500 uppercase tracking-widest">Username</span>
+                                    <span className="text-white font-bold">{createdAccount.name}</span>
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-[8px] font-black text-gray-500 uppercase tracking-widest">Password</span>
+                                    <span className="text-white font-bold">{createdAccount.pass}</span>
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-[8px] font-black text-gray-500 uppercase tracking-widest">Login Link</span>
+                                    <span className="text-neon-blue font-bold truncate underline">{window.location.origin}/login</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <button
+                                onClick={() => {
+                                    const text = `Username: ${createdAccount.name}\nPassword: ${createdAccount.pass}\nLogin: ${window.location.origin}/login`;
+                                    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+                                }}
+                                className="flex flex-col items-center gap-3 p-4 rounded-3xl bg-[#25D366]/10 border border-[#25D366]/20 hover:bg-[#25D366] hover:text-white transition-all text-[#25D366]"
+                            >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                <span className="text-[9px] font-black uppercase tracking-widest">WhatsApp</span>
+                            </button>
+                            <button
+                                onClick={() => {
+                                    const text = `Username: ${createdAccount.name}\nPassword: ${createdAccount.pass}\nLogin: ${window.location.origin}/login`;
+                                    window.open(`https://t.me/share/url?text=${encodeURIComponent(text)}`, '_blank');
+                                }}
+                                className="flex flex-col items-center gap-3 p-4 rounded-3xl bg-[#0088cc]/10 border border-[#0088cc]/20 hover:bg-[#0088cc] hover:text-white transition-all text-[#0088cc]"
+                            >
+                                <Send size={24} />
+                                <span className="text-[9px] font-black uppercase tracking-widest">Telegram</span>
+                            </button>
+                        </div>
+
+                        <div className="mt-4">
+                            <button
+                                onClick={() => {
+                                    const text = `Username: ${createdAccount.name}\nPassword: ${createdAccount.pass}\nLogin: ${window.location.origin}/login`;
+                                    navigator.clipboard.writeText(text);
+                                    setModal({ show: true, title: 'COPIED', message: 'Detail akun telah disalin ke clipboard.', type: 'success' });
+                                }}
+                                className="w-full flex items-center justify-center gap-3 p-5 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-white"
+                            >
+                                <Copy size={20} />
+                                <span className="text-[9px] font-black uppercase tracking-widest">Copy Login Details</span>
+                            </button>
+                        </div>
+
+                        <button
+                            onClick={() => setShowShareModal(false)}
+                            className="mt-10 w-full py-5 rounded-2xl bg-white/5 border border-white/10 text-gray-500 font-black uppercase tracking-[0.3em] text-[10px] hover:text-white transition-all"
+                        >
+                            SELESAI
                         </button>
                     </div>
                 </div>
