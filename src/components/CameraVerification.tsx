@@ -28,7 +28,6 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
                 return;
             }
 
-            // Try back camera first with ideal constraints
             try {
                 const s = await navigator.mediaDevices.getUserMedia({
                     video: { facingMode: { ideal: 'environment' } },
