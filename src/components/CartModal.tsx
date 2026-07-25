@@ -170,19 +170,7 @@ export default function CartModal() {
                 className={`relative w-full sm:w-[450px] h-full bg-[#0d0d12] border-l border-white/10 shadow-[-20px_0_60px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCartOpen ? 'translate-x-0' : 'translate-x-full opacity-0'}`}
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* Particle Stars Effect Background */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
-                    <div className="stars-container">
-                        {[...Array(20)].map((_, i) => (
-                            <div key={i} className="star" style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                                animationDelay: `${Math.random() * 5}s`,
-                                transform: `scale(${Math.random()})`
-                            }} />
-                        ))}
-                    </div>
-                </div>
+
 
                 {/* Header */}
                 <div className="p-6 border-b border-white/5 flex items-center justify-between relative z-10">
@@ -488,11 +476,7 @@ export default function CartModal() {
             )}
 
             <style>{`
-                .star { position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0; animation: twinkle 5s infinite; }
-                @keyframes twinkle { 
-                    0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
-                    50% { opacity: 0.8; transform: translateY(-20px) scale(1.2); }
-                }
+
 
                 .leaflet-container { width: 100%; height: 100%; background: #f8f9fa !important; border-radius: 1rem; }
                 .leaflet-tile { filter: none !important; }

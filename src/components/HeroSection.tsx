@@ -1,7 +1,5 @@
-import Scene3D from './Scene3D';
 import bannerUrl from '../assets/banner.jpg';
 import gemboxUrl from '../assets/Gembox.png';
-import logoUrl from '../assets/logonobg.png';
 
 export default function HeroSection() {
     return (
@@ -32,10 +30,7 @@ export default function HeroSection() {
 
 
 
-            {/* 3D Scene */}
-            <div className="absolute inset-0 z-[2]">
-                <Scene3D />
-            </div>
+
 
             {/* Decorative Elements */}
             <div className="absolute top-20 left-10 w-72 h-72 bg-neon-blue/5 rounded-full blur-[100px] z-[1]" />
@@ -44,17 +39,7 @@ export default function HeroSection() {
 
             {/* Content */}
             <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
-                {/* Logo Badge */}
-                <div className="inline-flex items-center gap-3 glass-card px-5 py-2.5 rounded-full mb-8 animate-float">
-                    <img
-                        src={logoUrl}
-                        alt="Logo"
-                        className="h-8 w-8 object-contain"
-                    />
-                    <span className="text-sm font-inter font-medium text-gray-300 tracking-wider uppercase">
-                        PLAYSTATION RACING GAME
-                    </span>
-                </div>
+
 
                 {/* Main Heading */}
                 <h1 className="font-montserrat font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.95] mb-6 tracking-tight">
@@ -113,13 +98,7 @@ export default function HeroSection() {
                 </div>
             </div>
 
-            {/* Scroll indicator */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 animate-float">
-                <span className="text-xs text-gray-500 font-inter tracking-widest uppercase">Scroll</span>
-                <div className="w-5 h-8 rounded-full border border-gray-600 flex items-start justify-center p-1">
-                    <div className="w-1 h-2 bg-gray-500 rounded-full animate-bounce" />
-                </div>
-            </div>
+
         </section>
     );
 }

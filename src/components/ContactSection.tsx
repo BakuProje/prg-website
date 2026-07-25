@@ -1,4 +1,4 @@
-import Scene3D from './Scene3D';
+
 
 export default function ContactSection() {
     return (
@@ -9,10 +9,7 @@ export default function ContactSection() {
             <div className="absolute top-0 left-1/4 w-80 h-80 bg-neon-blue/3 rounded-full blur-[120px]" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-purple/3 rounded-full blur-[120px]" />
 
-            {/* 3D Scene Effect */}
-            <div className="absolute inset-0 z-[2]">
-                <Scene3D />
-            </div>
+
 
             <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
                 {/* Section Header */}

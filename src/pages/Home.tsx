@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import HeroSection from '../components/HeroSection';
 import ProductCard, { VariantModal } from '../components/ProductCatalog';
 import ContactSection from '../components/ContactSection';
-import Scene3D from '../components/Scene3D';
 import type { Product } from '../types';
 
 // Asset Imports (Moving them here)
@@ -156,10 +155,7 @@ export default function Home() {
                 <div className="absolute top-1/4 right-0 w-72 h-72 bg-neon-magenta/3 rounded-full blur-[120px]" />
                 <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-neon-blue/3 rounded-full blur-[120px]" />
 
-                {/* 3D Scene Effect */}
-                <div className="absolute inset-0 z-[2]">
-                    <Scene3D />
-                </div>
+
 
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
                     {/* Section Header */}
