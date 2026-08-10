@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 import { Mail, Lock, Loader2, ArrowLeft, XCircle, Eye, EyeOff } from 'lucide-react';
-import logoUrl from '../assets/logonobg.png';
+import logoUrl from '../assets/logonobg.webp';
 
 export default function Login() {
     const [identifier, setIdentifier] = useState('');

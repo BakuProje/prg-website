@@ -1,4 +1,4 @@
-import logoUrl from '../assets/logonobg.png';
+import logoUrl from '../assets/logonobg.webp';
 
 export default function Footer() {
     return (
@@ -9,7 +9,11 @@ export default function Footer() {
                     <div className="flex items-center gap-3">
                         <img
                             src={logoUrl}
-                            alt="PS Racing Game"
+                            alt="PlayStation Racing Game Logo"
+                            width="120"
+                            height="32"
+                            loading="lazy"
+                            decoding="async"
                             className="h-8 w-auto object-contain"
                         />
                         <span className="font-montserrat font-bold text-sm text-gray-400">

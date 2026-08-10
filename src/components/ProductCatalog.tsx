@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import type { Product, ProductVariant } from '../types';
 import { useCartStore } from '../store/cartStore';
 
-// Asset Imports
-import tvAnalogImg from '../assets/TV ANALOG.png';
-import tvAndroidImg from '../assets/TV Android.jpeg';
-import ps3Img from '../assets/ps3.jpeg';
-import ps4Img from '../assets/ps4.jpeg';
-import ps4SetupImg from '../assets/PS 4 SETUP LANDCAPE.png';
-import ps3SetupImg from '../assets/PS 3 DAN TV SETUP.jpg';
+// Asset Imports (.webp optimized)
+import tvAnalogImg from '../assets/TV ANALOG.webp';
+import tvAndroidImg from '../assets/TV Android.webp';
+import ps3Img from '../assets/ps3.webp';
+import ps4Img from '../assets/ps4.webp';
+import ps4SetupImg from '../assets/PS 4 SETUP LANDCAPE.webp';
+import ps3SetupImg from '../assets/PS 3 DAN TV SETUP.webp';
 
 interface ProductCardProps {
     product: Product;
@@ -89,7 +89,9 @@ export default function ProductCard({ product }: ProductCardProps) {
                                     src={product.cover}
                                     alt={product.name}
                                     className="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110"
-                                    loading="eager"
+                                    width="400"
+                                    height="224"
+                                    loading="lazy"
                                     decoding="async"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
@@ -155,7 +157,9 @@ export default function ProductCard({ product }: ProductCardProps) {
                         src={product.cover}
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        loading="eager"
+                        width="400"
+                        height="224"
+                        loading="lazy"
                         decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
@@ -673,6 +677,7 @@ export function VariantModal() {
                     </div>
                     <button
                         onClick={handleClose}
+                        aria-label="Tutup Pilihan Varian"
                         className="p-2 rounded-lg hover:bg-white/5 transition-colors text-gray-400 hover:text-white"
                     >
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

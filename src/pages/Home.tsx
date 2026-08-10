@@ -4,19 +4,19 @@ import ProductCard, { VariantModal } from '../components/ProductCatalog';
 import ContactSection from '../components/ContactSection';
 import type { Product } from '../types';
 
-// Asset Imports (Moving them here)
-import tvOnlyImg from '../assets/TV ONLY LANDSCAPE.jpg';
-import tvAnalogImg from '../assets/TV ANALOG.png';
+// Asset Imports (.webp optimized)
+import tvOnlyImg from '../assets/TV ONLY LANDSCAPE.webp';
+import tvAnalogImg from '../assets/TV ANALOG.webp';
 import tvAndroidVideo from '../assets/TV ANDROID.mp4';
-import ps3TvImg from '../assets/PS3 DAN TV LANDSCAPE.jpg';
+import ps3TvImg from '../assets/PS3 DAN TV LANDSCAPE.webp';
 import ps3Video from '../assets/PS 3.mp4';
-import ps3OnlyImg from '../assets/PS 3 ONLY LANDSCAPE.jpg';
-import ps4TvImg from '../assets/PS4 DAN TV LANDSCAPE.jpg';
+import ps3OnlyImg from '../assets/PS 3 ONLY LANDSCAPE.webp';
+import ps4TvImg from '../assets/PS4 DAN TV LANDSCAPE.webp';
 import ps4OfflineVideo from '../assets/PS 4 OFFLINE.mp4';
 import ps4OnlineVideo from '../assets/PS 4 ONLINE.mp4';
-import ps4OnlyImg from '../assets/PS4 ONLY LANDSCAPE.jpg';
-import playboxImg from '../assets/PLAYBOX.jpeg';
-import ps5Img from '../assets/PS5.jpeg';
+import ps4OnlyImg from '../assets/PS4 ONLY LANDSCAPE.webp';
+import playboxImg from '../assets/PLAYBOX.webp';
+import ps5Img from '../assets/PS5.webp';
 
 const products: Product[] = [
     {
@@ -133,16 +133,6 @@ const products: Product[] = [
 ];
 
 export default function Home() {
-    // Preload all product cover images immediately
-    useEffect(() => {
-        products.forEach(product => {
-            if (product.cover) {
-                const img = new Image();
-                img.src = product.cover;
-            }
-        });
-    }, []);
-
     return (
         <>
             <HeroSection />

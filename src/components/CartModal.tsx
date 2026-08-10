@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useCartStore } from '../store/cartStore';
 import { useMember } from '../hooks/useMember';
 
-// Asset Imports
-import mapsImg from '../assets/maps.png';
-import sekarangImg from '../assets/sekarang.png';
-import cashImg from '../assets/cash.png';
-import qrisImg from '../assets/qris.png';
+// Asset Imports (.webp optimized)
+import mapsImg from '../assets/maps.webp';
+import sekarangImg from '../assets/sekarang.webp';
+import cashImg from '../assets/cash.webp';
+import qrisImg from '../assets/qris.webp';
 
 const paymentMethodImages: Record<string, string> = {
     cash: cashImg,
@@ -14,6 +14,31 @@ const paymentMethodImages: Record<string, string> = {
 };
 
 const WHATSAPP_NUMBER = '6282349918631';
+
+const loadLeaflet = async (): Promise<any> => {
+    if ((window as any).L) return (window as any).L;
+
+    if (!document.getElementById('leaflet-css')) {
+        const link = document.createElement('link');
+        link.id = 'leaflet-css';
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(link);
+    }
+
+    if (!document.getElementById('leaflet-js')) {
+        await new Promise<void>((resolve, reject) => {
+            const script = document.createElement('script');
+            script.id = 'leaflet-js';
+            script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            script.async = true;
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('Failed to load Leaflet'));
+            document.body.appendChild(script);
+        });
+    }
+    return (window as any).L;
+};
 
 export default function CartModal() {
     const {
@@ -40,37 +65,47 @@ export default function CartModal() {
     const mapRef = useRef<any>(null);
     const mapContainerRef = useRef<HTMLDivElement>(null);
 
-    // Dynamic Leaflet Map Implementation
+    // Dynamic On-Demand Leaflet Map Implementation
     useEffect(() => {
-        if (!coords || isManualAddress || !mapContainerRef.current || !(window as any).L) return;
+        if (!coords || isManualAddress || !mapContainerRef.current) return;
+        let isCancelled = false;
 
-        const L = (window as any).L;
-        if (mapRef.current) mapRef.current.remove();
+        loadLeaflet().then((L) => {
+            if (isCancelled || !mapContainerRef.current || !L) return;
+            if (mapRef.current) mapRef.current.remove();
 
-        const map = L.map(mapContainerRef.current, {
-            center: [coords.lat, coords.lng],
-            zoom: 17,
-            zoomControl: false
-        });
+            const map = L.map(mapContainerRef.current, {
+                center: [coords.lat, coords.lng],
+                zoom: 17,
+                zoomControl: false
+            });
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
-            attribution: '©OpenStreetMap ©CartoDB'
-        }).addTo(map);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
+                attribution: '©OpenStreetMap ©CartoDB'
+            }).addTo(map);
 
-        const marker = L.marker([coords.lat, coords.lng], { draggable: true }).addTo(map);
+            const marker = L.marker([coords.lat, coords.lng], { draggable: true }).addTo(map);
 
-        marker.on('dragend', async () => {
-            const newPos = marker.getLatLng();
-            setCoords({ lat: newPos.lat, lng: newPos.lng });
-            try {
-                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${newPos.lat}&lon=${newPos.lng}`);
-                const data = await response.json();
-                if (data.display_name) setAddress(data.display_name);
-            } catch (err) { console.error(err); }
-        });
+            marker.on('dragend', async () => {
+                const newPos = marker.getLatLng();
+                setCoords({ lat: newPos.lat, lng: newPos.lng });
+                try {
+                    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${newPos.lat}&lon=${newPos.lng}`);
+                    const data = await response.json();
+                    if (data.display_name) setAddress(data.display_name);
+                } catch (err) { console.error(err); }
+            });
 
-        mapRef.current = map;
-        return () => { if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; } };
+            mapRef.current = map;
+        }).catch(console.error);
+
+        return () => {
+            isCancelled = true;
+            if (mapRef.current) {
+                mapRef.current.remove();
+                mapRef.current = null;
+            }
+        };
     }, [coords, isManualAddress, isCartOpen]);
 
     // Body scroll lock for cart drawer
@@ -185,7 +220,7 @@ export default function CartModal() {
                             <p className="text-[10px] text-gray-500 font-montserrat font-bold uppercase tracking-widest leading-none mt-1">{items.length} Pesanan Aktif</p>
                         </div>
                     </div>
-                    <button onClick={closeCart} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-all active:scale-95 group">
+                    <button onClick={closeCart} aria-label="Tutup Keranjang" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-all active:scale-95 group">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="group-hover:rotate-90 transition-transform"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                     </button>
                 </div>
@@ -203,7 +238,7 @@ export default function CartModal() {
                             items.map((item) => (
                                 <div key={`${item.product.id}-${item.variant?.id}`} className="group relative p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-neon-blue/20 transition-all flex gap-4">
                                     <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 border border-white/10 group-hover:border-neon-blue/40 transition-colors">
-                                        <img src={item.product.cover} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                        <img src={item.product.cover} alt={item.product.name} width="80" height="80" loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                     </div>
                                     <div className="flex-1 min-w-0 flex flex-col justify-between">
                                         <div>
@@ -214,11 +249,11 @@ export default function CartModal() {
                                         </div>
                                         <div className="flex items-center justify-between mt-3">
                                             <div className="flex items-center bg-black/40 rounded-lg p-1 border border-white/5">
-                                                <button onClick={() => item.quantity <= 1 ? removeItem(item.product.id, item.variant?.id) : updateQuantity(item.product.id, item.variant?.id, item.quantity - 1)} className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-white transition-colors">
+                                                <button onClick={() => item.quantity <= 1 ? removeItem(item.product.id, item.variant?.id) : updateQuantity(item.product.id, item.variant?.id, item.quantity - 1)} aria-label="Kurangi jumlah" className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-white transition-colors">
                                                     {item.quantity <= 1 ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg> : '−'}
                                                 </button>
                                                 <span className="w-8 text-center text-xs font-montserrat font-black text-white">{item.quantity}</span>
-                                                <button onClick={() => updateQuantity(item.product.id, item.variant?.id, item.quantity + 1)} className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-white transition-colors">+</button>
+                                                <button onClick={() => updateQuantity(item.product.id, item.variant?.id, item.quantity + 1)} aria-label="Tambah jumlah" className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-white transition-colors">+</button>
                                             </div>
                                             <p className="text-white font-montserrat font-black text-xs">Rp {((item.variant?.price ?? item.product.price) * item.quantity).toLocaleString('id-ID')}</p>
                                         </div>

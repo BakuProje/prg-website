@@ -50,10 +50,10 @@ import {
 } from 'lucide-react';
 import ChatLoyalty from '../components/ChatLoyalty';
 import { Profile } from '../types/member';
-import logoUrl from '../assets/logonobg.png';
-import PlayerBadge from '../assets/Player Role.png';
-import MemberBadge from '../assets/Member Role.png';
-import SubscriberBadge from '../assets/Subscriber Role.png';
+import logoUrl from '../assets/logonobg.webp';
+import PlayerBadge from '../assets/Player Role.webp';
+import MemberBadge from '../assets/Member Role.webp';
+import SubscriberBadge from '../assets/Subscriber Role.webp';
 
 export default function AdminDashboard() {
     const [members, setMembers] = useState<any[]>([]);

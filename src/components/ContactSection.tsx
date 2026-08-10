@@ -1,6 +1,27 @@
-
+import { useState, useEffect, useRef } from 'react';
 
 export default function ContactSection() {
+    const [isMapVisible, setIsMapVisible] = useState(false);
+    const mapContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    setIsMapVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '300px' }
+        );
+
+        if (mapContainerRef.current) {
+            observer.observe(mapContainerRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <section id="contact" className="relative py-20 sm:py-28 overflow-hidden">
             {/* Background Effects */}
@@ -132,17 +153,28 @@ export default function ContactSection() {
                     </div>
 
                     {/* Map */}
-                    <div className="glass-card rounded-2xl overflow-hidden">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3973.7702!2d119.4421264!3d-5.1406384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNcKwMDgnMjYuMyJTIDExOcKwMjYnMzEuNyJF!5e0!3m2!1sid!2sid!4v1714460000000!5m2!1sid!2sid"
-                            width="100%"
-                            height="300"
-                            style={{ border: 0 }}
-                            allowFullScreen
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                            className="w-full h-full min-h-[300px]"
-                        />
+                    <div ref={mapContainerRef} className="glass-card rounded-2xl overflow-hidden min-h-[300px] flex items-center justify-center bg-dark-800/50">
+                        {isMapVisible ? (
+                            <iframe
+                                title="Lokasi Rental PlayStation Racing Game Makassar di Google Maps"
+                                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3973.7702!2d119.4421264!3d-5.1406384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNcKwMDgnMjYuMyJTIDExOcKwMjYnMzEuNyJF!5e0!3m2!1sid!2sid!4v1714460000000!5m2!1sid!2sid"
+                                width="100%"
+                                height="300"
+                                style={{ border: 0 }}
+                                allowFullScreen
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                className="w-full h-full min-h-[300px]"
+                            />
+                        ) : (
+                            <div className="flex flex-col items-center justify-center p-8 text-center text-gray-500">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-neon-blue animate-pulse mb-3">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                                <span className="font-montserrat font-bold text-xs uppercase tracking-widest text-gray-400">Memuat Peta Lokasi...</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

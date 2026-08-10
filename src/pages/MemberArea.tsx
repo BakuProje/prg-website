@@ -24,12 +24,12 @@ import {
 import ChatLoyalty from '../components/ChatLoyalty';
 import CameraVerification from '../components/CameraVerification';
 import type { LoyaltyCard, Profile } from '../types/member';
-import logoUrl from '../assets/logonobg.png';
+import logoUrl from '../assets/logonobg.webp';
 
-// Role Badge Assets
-import PlayerBadge from '../assets/Player Role.png';
-import MemberBadge from '../assets/Member Role.png';
-import SubscriberBadge from '../assets/Subscriber Role.png';
+// Role Badge Assets (.webp optimized)
+import PlayerBadge from '../assets/Player Role.webp';
+import MemberBadge from '../assets/Member Role.webp';
+import SubscriberBadge from '../assets/Subscriber Role.webp';
 
 function NotificationItem({ v, onDelete }: { v: any, onDelete: () => void }) {
     const [startX, setStartX] = React.useState(0);

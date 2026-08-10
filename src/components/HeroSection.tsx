@@ -1,5 +1,5 @@
-import bannerUrl from '../assets/banner.jpg';
-import gemboxUrl from '../assets/Gembox.png';
+import bannerUrl from '../assets/banner.webp';
+import gemboxUrl from '../assets/Gembox.webp';
 
 export default function HeroSection() {
     return (
@@ -9,20 +9,19 @@ export default function HeroSection() {
         >
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
-                {/* Desktop Background (Windows/PC) */}
-                <img
-                    src={bannerUrl}
-                    alt="PlayStation Racing Game Desktop"
-                    className="hidden md:block w-full h-full object-cover object-center"
-                    loading="eager"
-                />
-                {/* Mobile Background (Android/Apple) */}
-                <img
-                    src={gemboxUrl}
-                    alt="PlayStation Racing Game Mobile"
-                    className="block md:hidden w-full h-full object-cover object-center"
-                    loading="eager"
-                />
+                <picture className="w-full h-full">
+                    <source media="(min-width: 768px)" srcSet={bannerUrl} type="image/webp" />
+                    <img
+                        src={gemboxUrl}
+                        alt="PlayStation Racing Game Rental Makassar"
+                        className="w-full h-full object-cover object-center"
+                        width="1920"
+                        height="1080"
+                        loading="eager"
+                        fetchPriority="high"
+                        decoding="async"
+                    />
+                </picture>
                 {/* Multi-layer overlay */}
                 <div className="absolute inset-0 bg-gradient-to-b from-dark-900/70 via-dark-900/80 to-dark-900" />
                 <div className="absolute inset-0 bg-gradient-to-r from-neon-blue/5 via-transparent to-neon-purple/5" />

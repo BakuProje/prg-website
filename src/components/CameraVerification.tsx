@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Camera, X, Check, RotateCcw, MapPin } from 'lucide-react';
-import logoUrl from '../assets/logonobg.png';
+import logoUrl from '../assets/logonobg.webp';
 
 interface CameraVerificationProps {
     onCapture: (blob: Blob, metadata: any) => void;
