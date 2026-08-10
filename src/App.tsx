@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import { useCartStore } from './store/cartStore';
 
 // Code-split heavy routes & modals
 const CartModal = lazy(() => import('./components/CartModal'));
@@ -18,35 +19,34 @@ function PageLoader() {
     );
 }
 
+function PublicHome() {
+    const isCartOpen = useCartStore((state) => state.isCartOpen);
+
+    return (
+        <>
+            <Navbar />
+            <Home />
+            {isCartOpen && (
+                <Suspense fallback={null}>
+                    <CartModal />
+                </Suspense>
+            )}
+        </>
+    );
+}
+
 export default function App() {
     return (
         <Router>
             <div className="min-h-screen bg-dark-900">
                 <Suspense fallback={<PageLoader />}>
                     <Routes>
-                        {/* Public Routes with Navbar */}
-                        <Route path="/" element={
-                            <>
-                                <Navbar />
-                                <Home />
-                                <Suspense fallback={null}>
-                                    <CartModal />
-                                </Suspense>
-                            </>
-                        } />
-                        
-                        {/* Auth Routes */}
+                        <Route path="/" element={<PublicHome />} />
                         <Route path="/login" element={<Login />} />
-                        
-                        {/* Role Redirector */}
                         <Route path="/dashboard" element={<Dashboard />} />
-                        
-                        {/* Protected Member Routes */}
                         <Route path="/member" element={<MemberArea />} />
                         <Route path="/player" element={<MemberArea />} />
                         <Route path="/subscriber" element={<MemberArea />} />
-                        
-                        {/* Admin Routes */}
                         <Route path="/admin" element={<AdminDashboard />} />
                     </Routes>
                 </Suspense>

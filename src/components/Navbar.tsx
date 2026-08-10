@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCartStore } from '../store/cartStore';
-import { supabase } from '../lib/supabase';
 import logoUrl from '../assets/logonobg.webp';
 
 export default function Navbar() {
@@ -14,19 +13,26 @@ export default function Navbar() {
     const location = useLocation();
 
     useEffect(() => {
+        let ticking = false;
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    setScrolled(window.scrollY > 50);
 
-            const sections = ['contact', 'info', 'beranda'];
-            for (const section of sections) {
-                const el = document.getElementById(section);
-                if (el) {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top <= window.innerHeight / 3) {
-                        setActiveSection(section);
-                        break;
+                    const sections = ['contact', 'info', 'beranda'];
+                    for (const section of sections) {
+                        const el = document.getElementById(section);
+                        if (el) {
+                            const rect = el.getBoundingClientRect();
+                            if (rect.top <= window.innerHeight / 3) {
+                                setActiveSection(section);
+                                break;
+                            }
+                        }
                     }
-                }
+                    ticking = false;
+                });
+                ticking = true;
             }
         };
         window.addEventListener('scroll', handleScroll, { passive: true });
