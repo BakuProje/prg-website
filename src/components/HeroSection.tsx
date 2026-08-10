@@ -10,13 +10,13 @@ export default function HeroSection() {
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
                 <picture className="w-full h-full">
-                    <source media="(min-width: 768px)" srcSet={bannerUrl} type="image/webp" width="1600" height="900" />
+                    <source media="(min-width: 768px)" srcSet={bannerUrl} type="image/webp" width="1280" height="720" />
                     <img
                         src={gemboxUrl}
                         alt="PlayStation Racing Game Rental Makassar"
                         className="w-full h-full object-cover object-center"
-                        width="480"
-                        height="480"
+                        width="380"
+                        height="380"
                         loading="eager"
                         fetchPriority="high"
                         decoding="async"
