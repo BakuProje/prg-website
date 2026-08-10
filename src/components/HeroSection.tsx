@@ -15,8 +15,8 @@ export default function HeroSection() {
                         src={gemboxUrl}
                         alt="PlayStation Racing Game Rental Makassar"
                         className="w-full h-full object-cover object-center"
-                        width="720"
-                        height="720"
+                        width="480"
+                        height="480"
                         loading="eager"
                         fetchPriority="high"
                         decoding="async"

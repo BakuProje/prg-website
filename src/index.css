@@ -17,7 +17,7 @@
     }
 
     body {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         background-color: #0a0a0f;
         color: #ffffff;
         overflow-x: hidden;
@@ -73,8 +73,8 @@
         background: linear-gradient(135deg, #00d4ff, #8b5cf6);
         padding: 12px 28px;
         border-radius: 8px;
-        font-weight: 600;
-        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-family: 'Montserrat', -apple-system, sans-serif;
         letter-spacing: 0.02em;
         transition: all 0.3s ease;
         overflow: hidden;
@@ -96,8 +96,8 @@
         position: relative;
         padding: 12px 28px;
         border-radius: 8px;
-        font-weight: 600;
-        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-family: 'Montserrat', -apple-system, sans-serif;
         letter-spacing: 0.02em;
         transition: all 0.3s ease;
         background: transparent;
