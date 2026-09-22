@@ -24,17 +24,13 @@ export default function HeroSection() {
                 </picture>
                 {/* Multi-layer overlay */}
                 <div className="absolute inset-0 bg-gradient-to-b from-dark-900/70 via-dark-900/80 to-dark-900" />
-                <div className="absolute inset-0 bg-gradient-to-r from-neon-blue/5 via-transparent to-neon-purple/5" />
+                <div className="absolute inset-0 bg-gradient-to-r from-neon-blue/5 via-transparent to-blue-600/5" />
             </div>
-
-
-
-
 
             {/* Decorative Elements */}
             <div className="absolute top-20 left-10 w-72 h-72 bg-neon-blue/5 rounded-full blur-[100px] z-[1]" />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-neon-purple/5 rounded-full blur-[120px] z-[1]" />
-            <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-neon-magenta/5 rounded-full blur-[80px] z-[1]" />
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-600/5 rounded-full blur-[120px] z-[1]" />
+            <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-neon-cyan/5 rounded-full blur-[80px] z-[1]" />
 
             {/* Content */}
             <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
@@ -47,9 +43,8 @@ export default function HeroSection() {
                 </h1>
 
                 {/* Tagline */}
-                <p className="font-inter text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-                    Sewa PlayStation 3 & 4 dengan harga terjangkau. Nikmati pengalaman bermain sepuasanya
-                    di rumah kamu.
+                <p className="font-inter text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed text-justify">
+                    Sewa PlayStation 3 & 4 dengan harga terjangkau. Nikmati pengalaman bermain sepuasanya di rumah kamu.
                 </p>
 
                 {/* CTA Buttons */}

@@ -205,14 +205,12 @@ export default function CartModal() {
                 className={`relative w-full sm:w-[450px] h-full bg-[#0d0d12] border-l border-white/10 shadow-[-20px_0_60px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCartOpen ? 'translate-x-0' : 'translate-x-full opacity-0'}`}
                 onClick={(e) => e.stopPropagation()}
             >
-
-
                 {/* Header */}
                 <div className="p-6 border-b border-white/5 flex items-center justify-between relative z-10">
                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-neon-blue/20 to-neon-purple/20 flex items-center justify-center border border-white/10 shadow-inner">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-neon-blue/20 to-blue-600/20 flex items-center justify-center border border-white/10 shadow-inner">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-neon-blue">
-                                <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
+                                <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                             </svg>
                         </div>
                         <div>
@@ -282,7 +280,7 @@ export default function CartModal() {
                                         className={`w-full p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between transition-all ${!address ? 'hover:bg-white/10 hover:border-white/20 active:scale-98' : 'pointer-events-none opacity-80'}`}
                                     >
                                         <div className="flex items-center gap-3 overflow-hidden">
-                                            <div className="w-10 h-10 rounded-xl bg-neon-blue/10 flex items-center justify-center text-neon-blue border border-neon-blue/10"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg></div>
+                                            <div className="w-10 h-10 rounded-xl bg-neon-blue/10 flex items-center justify-center text-neon-blue border border-neon-blue/10"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg></div>
                                             <span className={`text-sm font-inter truncate ${address ? 'text-white font-semibold' : 'text-gray-500 italic'}`}>{address || 'Tap untuk pilih lokasi...'}</span>
                                         </div>
                                         {!address && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-gray-600 transition-transform ${isAddressDropdownOpen ? 'rotate-180' : ''}`}><path d="M6 9l6 6 6-6" /></svg>}
@@ -337,7 +335,7 @@ export default function CartModal() {
                                         <label className="text-[10px] font-montserrat font-black text-gray-600 uppercase tracking-widest ml-1">Waktu Antar</label>
                                         <button onClick={() => { setIsDeliveryDropdownOpen(!isDeliveryDropdownOpen); setIsPaymentDropdownOpen(false); setIsAddressDropdownOpen(false); }} className="w-full p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between transition-all hover:bg-white/10 active:scale-98 group">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-xl bg-neon-purple/10 flex items-center justify-center text-neon-purple group-hover:scale-110 transition-transform">
+                                                <div className="w-10 h-10 rounded-xl bg-neon-blue/10 flex items-center justify-center text-neon-blue group-hover:scale-110 transition-transform">
                                                     {deliveryTime === 'sekarang' ? <img src={sekarangImg} className="h-6 object-contain" /> : deliveryTime === 'nanti' ? '📅' : '⏰'}
                                                 </div>
                                                 <span className={`text-sm font-montserrat font-bold uppercase tracking-wider ${deliveryTime ? 'text-white' : 'text-gray-500 italic'}`}>{deliveryTime || 'Pilih Waktu...'}</span>
@@ -346,8 +344,8 @@ export default function CartModal() {
                                         </button>
                                         {isDeliveryDropdownOpen && (
                                             <div className="p-2 rounded-2xl bg-black/40 border border-white/5 scale-up-center space-y-1">
-                                                <button onClick={() => { setDeliveryTime('sekarang'); setIsDeliveryDropdownOpen(false); }} className={`w-full p-3 rounded-xl flex items-center gap-4 transition-all ${deliveryTime === 'sekarang' ? 'bg-neon-purple/20 border-neon-purple/30' : 'hover:bg-white/5'}`}>
-                                                    <div className="w-10 h-10 rounded-full bg-neon-purple/10 flex items-center justify-center">
+                                                <button onClick={() => { setDeliveryTime('sekarang'); setIsDeliveryDropdownOpen(false); }} className={`w-full p-3 rounded-xl flex items-center gap-4 transition-all ${deliveryTime === 'sekarang' ? 'bg-neon-blue/20 border-neon-blue/30' : 'hover:bg-white/5'}`}>
+                                                    <div className="w-10 h-10 rounded-full bg-neon-blue/10 flex items-center justify-center">
                                                         <img src={sekarangImg} alt="Now" className="h-6 object-contain" />
                                                     </div>
                                                     <div className="text-left">
@@ -355,7 +353,7 @@ export default function CartModal() {
                                                         <p className="text-[10px] text-gray-500">Antar pesanan saat ini juga</p>
                                                     </div>
                                                 </button>
-                                                <button onClick={() => { setDeliveryTime('nanti'); setIsDeliveryDropdownOpen(false); }} className={`w-full p-3 rounded-xl flex items-center gap-4 transition-all ${deliveryTime === 'nanti' ? 'bg-neon-purple/20 border-neon-purple/30' : 'hover:bg-white/5'}`}>
+                                                <button onClick={() => { setDeliveryTime('nanti'); setIsDeliveryDropdownOpen(false); }} className={`w-full p-3 rounded-xl flex items-center gap-4 transition-all ${deliveryTime === 'nanti' ? 'bg-neon-blue/20 border-neon-blue/30' : 'hover:bg-white/5'}`}>
                                                     <div className="w-10 h-10 rounded-full bg-gray-500/10 flex items-center justify-center text-xl">📅</div>
                                                     <div className="text-left">
                                                         <p className="text-sm font-montserrat font-bold text-white uppercase italic">Nanti</p>
@@ -455,7 +453,7 @@ export default function CartModal() {
                         <div className="absolute -top-10 -right-10 w-32 h-32 bg-neon-blue/20 rounded-full blur-[40px] pointer-events-none" />
 
                         {/* Icon */}
-                        <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-neon-blue/20 to-neon-purple/20 flex items-center justify-center mx-auto mb-6 border border-white/10 shadow-lg relative">
+                        <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-neon-blue/20 to-blue-600/20 flex items-center justify-center mx-auto mb-6 border border-white/10 shadow-lg relative">
                             <img src={mapsImg} alt="Location" className="w-10 h-10 object-contain relative z-10" />
                             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-neon-blue/30 to-transparent blur-sm rounded-b-3xl" />
                         </div>
@@ -473,7 +471,7 @@ export default function CartModal() {
                                 onClick={triggerGeolocation}
                                 disabled={isLocating}
                                 className={`w-full py-4 rounded-2xl font-montserrat font-black text-xs uppercase tracking-[0.2em] text-white flex items-center justify-center gap-3 transition-all shadow-[0_15px_30px_-10px_rgba(0,212,255,0.4)] ${isLocating ? 'opacity-70 scale-98 shadow-none' : 'hover:-translate-y-1 active:scale-95'}`}
-                                style={{ background: 'linear-gradient(135deg, #00d4ff, #7b2ff7)' }}
+                                style={{ background: 'linear-gradient(135deg, #00d4ff, #0077ff)' }}
                             >
                                 {isLocating ? (
                                     <>

@@ -113,13 +113,20 @@ const products: Product[] = [
         ],
     },
     {
-        id: 'playbox',
-        name: 'Playbox',
-        price: 0,
+        id: 'playbox-ps3',
+        name: 'Playbox PS3',
+        price: 100000,
         cover: playboxImg,
-        description: 'Segera hadir! Playbox.',
-        comingSoon: true,
-        rating: 1.0,
+        description: 'Paket Playbox PS3 all-in-one praktis & portable dengan layar monitor HD 27 inchi, stik PS3, dan koleksi game seru. Tinggal colok listrik langsung main di mana saja!',
+        rating: 4.9,
+    },
+    {
+        id: 'playbox-ps4',
+        name: 'Playbox PS4',
+        price: 150000,
+        cover: playboxImg,
+        description: 'Paket Playbox PS4 all-in-one praktis & portable dengan layar monitor HD 27 inchi, stik PS4, dan ratusan game populer. Tinggal colok listrik langsung main di mana saja!',
+        rating: 5.0,
     },
     {
         id: 'ps5',
@@ -142,22 +149,20 @@ export default function Home() {
                 {/* Background */}
                 <div className="absolute inset-0 bg-gradient-to-b from-dark-900 via-dark-800/50 to-dark-900" />
 
-                <div className="absolute top-1/4 right-0 w-72 h-72 bg-neon-magenta/3 rounded-full blur-[120px]" />
+                <div className="absolute top-1/4 right-0 w-72 h-72 bg-neon-cyan/3 rounded-full blur-[120px]" />
                 <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-neon-blue/3 rounded-full blur-[120px]" />
-
-
 
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
                     {/* Section Header */}
                     <div className="text-center mb-14">
-                        <span className="inline-block text-xs font-montserrat font-semibold tracking-[0.3em] uppercase text-neon-purple/70 mb-3">
+                        <span className="inline-block text-xs font-montserrat font-semibold tracking-[0.3em] uppercase text-neon-blue/70 mb-3">
                             Produk Rental
                         </span>
                         <h2 className="font-montserrat font-black text-3xl sm:text-4xl md:text-5xl text-white mb-4">
                             Pilih <span className="gradient-text">Produk</span> Rental
                         </h2>
                         <p className="text-gray-400 font-inter text-base sm:text-lg max-w-xl mx-auto">
-                            Tersedia berbagai paket rental PlayStation mulai dari TV,PS3,PS4.
+                            Tersedia berbagai paket rental PlayStation mulai dari TV, PS3, PS4, dan Playbox Portable.
                             Semua harga sudah termasuk perlengkapan lainnya.
                         </p>
                     </div>

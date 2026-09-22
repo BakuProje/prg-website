@@ -898,7 +898,7 @@ export default function MemberArea() {
                                     {/* Premium Background Effects */}
                                     <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px_32px]" />
                                     <div className="absolute -top-24 -left-24 w-64 h-64 bg-neon-blue/10 rounded-full blur-[100px] animate-pulse" />
-                                    <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-neon-purple/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+                                    <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-blue-600/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
 
                                     {/* Glassmorphism Overlay */}
                                     <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
@@ -980,7 +980,7 @@ export default function MemberArea() {
                                                 onClick={() => setShowCamera(true)}
                                                 className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-[24px] sm:rounded-[28px] bg-white text-black flex items-center justify-center hover:bg-neon-blue hover:text-white transition-all duration-500 active:scale-90 shadow-[0_12px_24px_-8px_rgba(255,255,255,0.4)] group/btn overflow-hidden"
                                             >
-                                                <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-200 group-hover/btn:from-neon-blue group-hover/btn:to-neon-purple transition-all duration-500" />
+                                                <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-200 group-hover/btn:from-neon-blue group-hover/btn:to-neon-cyan transition-all duration-500" />
                                                 <Camera size={32} className="relative z-10 group-hover/btn:scale-110 transition-transform duration-500" />
                                             </button>
                                         </div>

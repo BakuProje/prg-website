@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCartStore } from '../store/cartStore';
-import logoUrl from '../assets/logonobg.webp';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
@@ -100,22 +99,11 @@ export default function Navbar() {
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16 sm:h-20">
-                        {/* Logo */}
-                        <a href="/#beranda" className="flex items-center gap-3 group" aria-label="PRG Rental Beranda">
-                            <img
-                                src={logoUrl}
-                                alt="Playstation Racing Game Logo"
-                                width="160"
-                                height="44"
-                                className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                                loading="eager"
-                                decoding="async"
-                            />
-                            <div className="hidden sm:block">
-                                <span className="font-montserrat font-black text-xs sm:text-sm tracking-[0.2em] uppercase text-white italic">
-                                    PRG <span className="text-neon-blue">RENTAL</span>
-                                </span>
-                            </div>
+                        {/* Logo Text */}
+                        <a href="/#beranda" className="flex items-center group py-1" aria-label="PRG Rental Beranda">
+                            <span className="font-montserrat font-black text-lg sm:text-xl md:text-2xl tracking-[0.15em] uppercase italic transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_0_12px_rgba(0,212,255,0.3)]">
+                                <span className="text-neon-blue">PRG</span> <span className="text-white">RENTAL</span>
+                            </span>
                         </a>
 
                         <div className="hidden md:flex items-center gap-1">
@@ -183,33 +171,20 @@ export default function Navbar() {
 
                 {/* Solid Drawer Content */}
                 <div className={`absolute top-0 left-0 bottom-0 w-full sm:w-[320px] bg-[#0d0d12] border-r border-white/5 flex flex-col p-6 transition-transform duration-501 ease-[cubic-bezier(0.16,1,0.3,1)] ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                    {/* Stars Effect */}
-                    <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
-                        {[...Array(30)].map((_, i) => (
-                            <div key={i} className="navbar-star" style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                                animationDelay: `${Math.random() * 5}s`
-                            }} />
-                        ))}
-                    </div>
-
-                    <div className="flex items-center justify-between mb-12 relative z-10 p-2">
-                        <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-neon-blue/10 to-neon-purple/10 flex items-center justify-center border border-white/10">
-                                <img src={logoUrl} width="36" height="36" alt="PRG Logo" className="h-9 w-9 object-contain drop-shadow-[0_0_8px_rgba(0,212,255,0.4)]" />
-                            </div>
-                            <span className="font-montserrat font-black text-sm tracking-[0.2em] text-white uppercase italic">PRG <span className="text-neon-blue">RENTAL</span></span>
+                    <div className="flex items-center justify-between mb-10 relative z-10 p-2">
+                        <div className="flex items-center">
+                            <span className="font-montserrat font-black text-base sm:text-lg tracking-[0.15em] uppercase italic">
+                                <span className="text-neon-blue">PRG</span> <span className="text-white">RENTAL</span>
+                            </span>
                         </div>
-                        <button onClick={() => setMobileOpen(false)} aria-label="Tutup Menu Navigasi" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-all active:scale-90">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                        <button onClick={() => setMobileOpen(false)} aria-label="Tutup Menu Navigasi" className="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-all active:scale-90">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                         </button>
                     </div>
 
                     <div className="flex flex-col gap-4 relative z-10">
                         {navLinks.map((link, i) => {
                             const isActive = activeSection === link.id || (link.isRoute && location.pathname === link.href);
-                            const linkColor = isActive ? '#00d4ff' : '#4b5563';
                             return (
                                 <button
                                     key={link.href}
@@ -247,35 +222,24 @@ export default function Navbar() {
                     </div>
 
                     <div className="mt-auto pt-4 relative z-10">
-                        <div className="p-6 rounded-[32px] bg-gradient-to-br from-white/5 to-transparent border border-white/5 relative overflow-hidden group">
+                        <div className="p-5 rounded-[28px] bg-gradient-to-br from-white/5 to-transparent border border-white/5 relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-neon-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
-                            <div className="flex items-center gap-4 mb-5 transition-all duration-500">
-                                <div className="w-10 h-10 rounded-xl bg-black/40 flex items-center justify-center border border-white/10">
-                                    <img src={logoUrl} width="28" height="28" alt="PRG Logo" className="h-7 w-7 object-contain drop-shadow-[0_0_10px_rgba(0,212,255,0.4)]" />
-                                </div>
+                            <div className="flex items-center gap-3 mb-3 transition-all duration-500">
                                 <div className="flex flex-col">
-                                    <p className="text-[12px] font-montserrat font-black tracking-widest text-white italic leading-none">
-                                        PRG <span className="text-neon-blue">OFFICIAL</span>
+                                    <p className="text-[13px] font-montserrat font-black tracking-widest uppercase italic leading-none">
+                                        <span className="text-neon-blue">PRG</span> <span className="text-white">RENTAL</span>
                                     </p>
                                     <p className="text-[8px] text-gray-500 font-bold tracking-widest mt-1">EST. 2017</p>
                                 </div>
                             </div>
-                            <p className="text-[10px] leading-relaxed uppercase tracking-[0.3em] font-montserrat font-black italic bg-gradient-to-r from-neon-blue via-neon-purple to-neon-magenta bg-clip-text text-transparent animate-pulse whitespace-normal">
-                                PRG WEBSITE OFFICIAL
+                            <p className="text-[10px] leading-relaxed uppercase tracking-[0.25em] font-montserrat font-black italic bg-gradient-to-r from-neon-blue via-neon-cyan to-blue-400 bg-clip-text text-transparent animate-pulse whitespace-normal">
+                                OFFICIAL WEBSITE
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <style>{`
-                .navbar-star { position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%; opacity: 0; animation: twinkle 4s infinite; }
-                @keyframes twinkle { 
-                    0%, 100% { opacity: 0; transform: scale(0.5); }
-                    50% { opacity: 1; transform: scale(1.2); }
-                }
-            `}</style>
         </>
     );
 }

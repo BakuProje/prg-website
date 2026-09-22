@@ -66,7 +66,7 @@ export default function Login() {
             {/* Background Effects */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-blue/10 rounded-full blur-[120px]" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neon-purple/10 rounded-full blur-[120px]" />
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]" />
             </div>
 
             <button
@@ -80,7 +80,7 @@ export default function Login() {
             <div className="w-full max-w-md relative z-10">
                 <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[32px] p-8 sm:p-10 shadow-2xl">
                     <div className="flex flex-col items-center mb-10">
-                        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-neon-blue/20 to-neon-purple/20 flex items-center justify-center border border-white/10 mb-6 shadow-lg shadow-neon-blue/10">
+                        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-neon-blue/20 to-blue-600/20 flex items-center justify-center border border-white/10 mb-6 shadow-lg shadow-neon-blue/10">
                             <img src={logoUrl} alt="PRG Logo" className="w-14 h-14 object-contain" />
                         </div>
                         <h1 className="text-3xl font-montserrat font-black text-white uppercase italic tracking-wider">
