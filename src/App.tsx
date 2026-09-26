@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import { useCartStore } from './store/cartStore';
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 
 // Code-split heavy routes & modals
 const CartModal = lazy(() => import('./components/CartModal'));
@@ -43,14 +45,50 @@ export default function App() {
                     <Routes>
                         <Route path="/" element={<PublicHome />} />
                         <Route path="/login" element={<Login />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/member" element={<MemberArea />} />
-                        <Route path="/player" element={<MemberArea />} />
-                        <Route path="/subscriber" element={<MemberArea />} />
-                        <Route path="/admin" element={<AdminDashboard />} />
+                        <Route
+                            path="/dashboard"
+                            element={
+                                <ProtectedRoute>
+                                    <Dashboard />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/member"
+                            element={
+                                <ProtectedRoute>
+                                    <MemberArea />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/player"
+                            element={
+                                <ProtectedRoute>
+                                    <MemberArea />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/subscriber"
+                            element={
+                                <ProtectedRoute>
+                                    <MemberArea />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admin"
+                            element={
+                                <AdminRoute>
+                                    <AdminDashboard />
+                                </AdminRoute>
+                            }
+                        />
                     </Routes>
                 </Suspense>
             </div>
         </Router>
     );
 }
+

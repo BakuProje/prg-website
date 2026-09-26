@@ -562,16 +562,7 @@ export default function MemberArea() {
                 {/* Drawer Content */}
                 <aside className={`fixed top-0 left-0 bottom-0 w-full sm:w-[320px] bg-[#0d0d12] border-r border-white/5 transition-transform duration-501 ease-[cubic-bezier(0.16,1,0.3,1)] z-[130] ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                     <div className="h-full flex flex-col p-6 overflow-hidden">
-                        {/* Stars Effect */}
-                        <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
-                            {[...Array(30)].map((_, i) => (
-                                <div key={i} className="navbar-star" style={{
-                                    left: `${Math.random() * 100}%`,
-                                    top: `${Math.random() * 100}%`,
-                                    animationDelay: `${Math.random() * 5}s`
-                                }} />
-                            ))}
-                        </div>
+
 
                         <div className="flex items-center justify-between mb-8 relative z-10 p-2">
                             <div className="flex items-center gap-4">
@@ -745,11 +736,6 @@ export default function MemberArea() {
                     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
                     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
                     .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
-                    .navbar-star { position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%; opacity: 0; animation: twinkle 4s infinite; }
-                    @keyframes twinkle { 
-                        0%, 100% { opacity: 0; transform: scale(0.5); }
-                        50% { opacity: 1; transform: scale(1.2); }
-                    }
                 `}</style>
             </div>
 
@@ -801,16 +787,7 @@ export default function MemberArea() {
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-neon-blue/10 rounded-full blur-[100px] -mr-32 -mt-32" />
                                 <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:24px_24px]" />
 
-                                {/* Stars Effect inside Welcome Card */}
-                                <div className="absolute inset-0 pointer-events-none opacity-40 overflow-hidden">
-                                    {[...Array(15)].map((_, i) => (
-                                        <div key={i} className="navbar-star" style={{
-                                            left: `${Math.random() * 100}%`,
-                                            top: `${Math.random() * 100}%`,
-                                            animationDelay: `${Math.random() * 5}s`
-                                        }} />
-                                    ))}
-                                </div>
+
 
                                 { }
                                 <div className="absolute top-4 right-3 w-16 h-16 sm:w-28 sm:h-28 z-20">
@@ -906,16 +883,7 @@ export default function MemberArea() {
                                     {/* Scanline Effect */}
                                     <div className="absolute inset-0 bg-scanline opacity-[0.02] pointer-events-none" />
 
-                                    {/* Stars Effect inside Card */}
-                                    <div className="absolute inset-0 pointer-events-none opacity-40 overflow-hidden">
-                                        {[...Array(20)].map((_, i) => (
-                                            <div key={i} className="navbar-star" style={{
-                                                left: `${Math.random() * 100}%`,
-                                                top: `${Math.random() * 100}%`,
-                                                animationDelay: `${Math.random() * 5}s`
-                                            }} />
-                                        ))}
-                                    </div>
+
 
                                     <div className="relative">
                                         {/* Center Logo Watermark - Positioned specifically behind the 8 slots grid */}

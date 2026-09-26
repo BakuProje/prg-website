@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Camera, X, Check, RotateCcw, MapPin } from 'lucide-react';
+import { Camera, X, Check, RotateCcw, MapPin, SwitchCamera } from 'lucide-react';
 import logoUrl from '../assets/logonobg.webp';
 
 interface CameraVerificationProps {
@@ -11,17 +11,19 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [stream, setStream] = useState<MediaStream | null>(null);
+    const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment');
     const [capturedImage, setCapturedImage] = useState<string | null>(null);
     const [location, setLocation] = useState<string>('Mencari lokasi...');
     const [capturedBlob, setCapturedBlob] = useState<Blob | null>(null);
 
     useEffect(() => {
-        startCamera();
+        startCamera(facingMode);
         fetchLocation();
         return () => stopCamera();
     }, []);
 
-    const startCamera = async () => {
+    const startCamera = async (mode: 'user' | 'environment' = facingMode) => {
+        stopCamera();
         try {
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 alert('Browser Anda tidak mendukung akses kamera. Gunakan Chrome, Safari, atau Firefox versi terbaru.');
@@ -30,7 +32,11 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
 
             try {
                 const s = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: { ideal: 'environment' } },
+                    video: { 
+                        facingMode: { ideal: mode },
+                        width: { ideal: 1920 },
+                        height: { ideal: 1080 }
+                    },
                     audio: false
                 });
                 setStream(s);
@@ -39,8 +45,11 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
                 }
             } catch (envErr: any) {
                 console.warn('Ideal constraints failed, trying simplest:', envErr.name);
-                // Final fallback: simplest possible video constraint
-                const simpleStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                // Fallback: simpler video constraint with facing mode
+                const simpleStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: mode },
+                    audio: false 
+                });
                 setStream(simpleStream);
                 if (videoRef.current) {
                     videoRef.current.srcObject = simpleStream;
@@ -60,7 +69,14 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
     const stopCamera = () => {
         if (stream) {
             stream.getTracks().forEach(track => track.stop());
+            setStream(null);
         }
+    };
+
+    const toggleCamera = () => {
+        const nextMode = facingMode === 'environment' ? 'user' : 'environment';
+        setFacingMode(nextMode);
+        startCamera(nextMode);
     };
 
     const fetchLocation = () => {
@@ -94,21 +110,21 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
         if (!ctx) return;
 
         // Set canvas size to video size
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        canvas.width = video.videoWidth || 1280;
+        canvas.height = video.videoHeight || 720;
 
-        // Draw video frame
+        // Draw video frame without any mirroring
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
         // Draw Watermark
         drawWatermark(ctx, canvas.width, canvas.height);
 
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
         setCapturedImage(dataUrl);
         
         canvas.toBlob((blob) => {
             setCapturedBlob(blob);
-        }, 'image/jpeg', 0.8);
+        }, 'image/jpeg', 0.85);
         
         stopCamera();
     };
@@ -121,7 +137,7 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
 
         // Overlay Shadow for text readability
         const gradient = ctx.createLinearGradient(0, height, 0, height - 200);
-        gradient.addColorStop(0, 'rgba(0,0,0,0.6)');
+        gradient.addColorStop(0, 'rgba(0,0,0,0.65)');
         gradient.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = gradient;
         ctx.fillRect(0, height - 200, width, 200);
@@ -158,8 +174,6 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
         // Logo (Top Right)
         const img = new Image();
         img.src = logoUrl;
-        // Since image loading is async, we should ideally wait or pre-load
-        // For now, if it's already in cache it might work, but let's draw it if ready
         if (img.complete) {
            ctx.drawImage(img, width - 120, 20, 100, 100);
         }
@@ -177,7 +191,6 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
                 currentLine += ' ' + word;
             } else {
                 lines.push(currentLine);
-                currentLine = word;
             }
         }
         lines.push(currentLine);
@@ -196,7 +209,7 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
     const handleReset = () => {
         setCapturedImage(null);
         setCapturedBlob(null);
-        startCamera();
+        startCamera(facingMode);
     };
 
     return (
@@ -205,46 +218,71 @@ export default function CameraVerification({ onCapture, onClose }: CameraVerific
             <div className="relative flex-1 overflow-hidden">
                 {!capturedImage ? (
                     <>
+                        {/* Video Element without mirroring */}
                         <video 
                             ref={videoRef} 
                             autoPlay 
                             playsInline 
+                            muted
                             className="absolute inset-0 w-full h-full object-cover"
                         />
                         {/* Premium HUD Overlay */}
                         <div className="absolute inset-0 border-[1px] border-white/10 m-4 rounded-[40px] pointer-events-none" />
                         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-transparent h-40 pointer-events-none" />
                         
-                        {/* Shutter UI Overlay */}
-                        <div className="absolute bottom-10 left-0 right-0 flex justify-center items-center gap-10">
-                             <button 
+                        {/* Shutter & Controls UI Overlay */}
+                        <div className="absolute bottom-10 left-0 right-0 flex justify-center items-center gap-8 sm:gap-10 z-30">
+                            {/* Close Button */}
+                            <button 
+                                type="button"
                                 onClick={onClose}
-                                className="w-14 h-14 rounded-2xl bg-white/5 backdrop-blur-xl flex items-center justify-center text-white border border-white/10 active:scale-90 transition-all shadow-2xl"
+                                className="w-14 h-14 rounded-2xl bg-white/10 hover:bg-white/20 backdrop-blur-xl flex items-center justify-center text-white border border-white/15 active:scale-90 transition-all shadow-2xl"
+                                title="Tutup Kamera"
                             >
                                 <X size={28} />
                             </button>
+
+                            {/* Shutter Button */}
                             <button 
+                                type="button"
                                 onClick={capturePhoto}
-                                className="w-24 h-24 rounded-full border-[6px] border-white/20 flex items-center justify-center group active:scale-90 transition-transform"
+                                className="w-24 h-24 rounded-full border-[6px] border-white/30 flex items-center justify-center group active:scale-90 transition-transform shadow-2xl"
+                                title="Ambil Foto"
                             >
-                                <div className="w-18 h-18 rounded-full bg-white shadow-[0_0_30px_rgba(255,255,255,0.4)] group-hover:scale-105 transition-transform" />
+                                <div className="w-18 h-18 rounded-full bg-white shadow-[0_0_30px_rgba(255,255,255,0.5)] group-hover:scale-105 transition-transform" />
                             </button>
-                            <div className="w-14 h-14" />
+
+                            {/* Switch Front/Rear Camera Button */}
+                            <button 
+                                type="button"
+                                onClick={toggleCamera}
+                                className="w-14 h-14 rounded-2xl bg-white/10 hover:bg-white/20 backdrop-blur-xl flex items-center justify-center text-white border border-white/15 active:scale-90 transition-all shadow-2xl group"
+                                title={facingMode === 'environment' ? 'Ganti ke Kamera Depan' : 'Ganti ke Kamera Belakang'}
+                            >
+                                <SwitchCamera size={26} className="text-neon-blue group-active:rotate-180 transition-transform duration-300" />
+                            </button>
                         </div>
                     </>
                 ) : (
                     <div className="absolute inset-0">
-                        <img src={capturedImage} className="w-full h-full object-cover animate-fade-in" />
+                        <img src={capturedImage} className="w-full h-full object-cover animate-fade-in" alt="Hasil Foto" />
                         <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
                     </div>
                 )}
 
-                {/* Top System Label */}
-                <div className="absolute top-8 left-0 right-0 flex justify-center z-30">
-                    <div className="bg-black/40 backdrop-blur-xl px-6 py-2.5 rounded-full border border-white/10 flex items-center gap-3">
+                {/* Top System Label & Mode Indicator */}
+                <div className="absolute top-8 left-0 right-0 flex flex-col items-center gap-2 z-30 pointer-events-none">
+                    <div className="bg-black/50 backdrop-blur-xl px-6 py-2.5 rounded-full border border-white/10 flex items-center gap-3 shadow-lg">
                         <div className="w-2 h-2 rounded-full bg-neon-blue animate-pulse shadow-[0_0_12px_rgba(0,212,255,1)]" />
-                        <span className="text-white font-montserrat font-black text-[9px] uppercase tracking-[0.4em] italic">PRG Verification System</span>
+                        <span className="text-white font-montserrat font-black text-[9px] uppercase tracking-[0.3em] italic">PRG Verification System</span>
                     </div>
+                    {!capturedImage && (
+                        <div className="bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/5">
+                            <span className="text-gray-300 text-[8px] font-bold uppercase tracking-widest">
+                                {facingMode === 'environment' ? '📷 Kamera Belakang' : '🤳 Kamera Depan'} (Normal)
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
 

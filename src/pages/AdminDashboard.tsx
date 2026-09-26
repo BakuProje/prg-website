@@ -121,8 +121,16 @@ export default function AdminDashboard() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        checkAdmin();
-        fetchData();
+        let isSubscribed = true;
+
+        const init = async () => {
+            const isAdmin = await checkAdmin();
+            if (isAdmin && isSubscribed) {
+                await fetchData();
+            }
+        };
+
+        init();
 
         // Heartbeat for online status
         const updateLastSeen = async () => {
@@ -187,6 +195,7 @@ export default function AdminDashboard() {
         }, 10000);
 
         return () => {
+            isSubscribed = false;
             supabase.removeChannel(channel);
             supabase.removeChannel(profileChannel);
             supabase.removeChannel(msgChannel);
@@ -207,11 +216,11 @@ export default function AdminDashboard() {
         setTimeout(() => setRefreshing(false), 600);
     };
 
-    const checkAdmin = async () => {
+    const checkAdmin = async (): Promise<boolean> => {
         const { data: { session } } = await supabase.auth.getSession();
         if (!session) {
             navigate('/login');
-            return;
+            return false;
         }
 
         const { data: profile } = await supabase
@@ -222,9 +231,10 @@ export default function AdminDashboard() {
 
         if (!profile || profile.role !== 'admin') {
             navigate('/dashboard');
-            return;
+            return false;
         }
         setAdminProfile({ ...profile, full_name: 'PRG ADMIN' } as Profile);
+        return true;
     };
 
     const fetchData = async () => {
@@ -302,7 +312,7 @@ export default function AdminDashboard() {
 
             if (error) throw error;
 
-            // Update membership role and store password in profile
+            // Update membership role in profile (password is safely encrypted in Supabase Auth)
             // Wait for Supabase trigger to create the profile row first
             if (data.user) {
                 const maxRetries = 5;
@@ -319,8 +329,7 @@ export default function AdminDashboard() {
                         const { error: updateErr } = await supabase
                             .from('profiles')
                             .update({ 
-                                membership_role: newRole,
-                                password: newPassword
+                                membership_role: newRole
                             })
                             .eq('id', data.user!.id);
                         
@@ -331,7 +340,7 @@ export default function AdminDashboard() {
                     }
                 }
                 if (!profileUpdated) {
-                    console.warn('Profile update may not have completed — password might not be saved.');
+                    console.warn('Profile role update may not have completed.');
                 }
             }
 
@@ -413,18 +422,10 @@ export default function AdminDashboard() {
 
             if (rpcError) throw rpcError;
 
-            // Update password in profiles table for visibility
-            await supabase
-                .from('profiles')
-                .update({ password: newPassForMember })
-                .eq('id', selectedMember.id);
-
-            setSelectedMember({ ...selectedMember, password: newPassForMember });
-
             setModal({
                 show: true,
                 title: 'PASSWORD DIRESET',
-                message: `Password untuk ${selectedMember.full_name} telah berhasil diperbarui di sistem.`,
+                message: `Password untuk ${selectedMember.full_name} telah berhasil diperbarui dengan enkripsi aman di sistem.`,
                 type: 'success'
             });
             setNewPassForMember('');
@@ -733,16 +734,7 @@ export default function AdminDashboard() {
 
                 {/* Drawer Content */}
                 <aside className={`absolute top-0 left-0 bottom-0 w-full sm:w-[320px] bg-[#0d0d12] border-r border-white/5 flex flex-col p-6 transition-transform duration-501 ease-[cubic-bezier(0.16,1,0.3,1)] ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                    {/* Stars Effect */}
-                    <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
-                        {[...Array(30)].map((_, i) => (
-                            <div key={i} className="navbar-star" style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                                animationDelay: `${Math.random() * 5}s`
-                            }} />
-                        ))}
-                    </div>
+
 
                     <div className="flex items-center justify-between mb-12 relative z-10 p-2">
                         <div className="flex items-center gap-3">
@@ -869,13 +861,7 @@ export default function AdminDashboard() {
 
                 </aside>
 
-                <style>{`
-                    .navbar-star { position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%; opacity: 0; animation: twinkle 4s infinite; }
-                    @keyframes twinkle { 
-                        0%, 100% { opacity: 0; transform: scale(0.5); }
-                        50% { opacity: 1; transform: scale(1.2); }
-                    }
-                `}</style>
+
             </div>
 
             {/* Sidebar Desktop */}
@@ -1566,30 +1552,24 @@ export default function AdminDashboard() {
 
                                     <div className="space-y-3">
                                         <div className="px-2 flex items-center justify-between">
-                                            <label className="text-[8px] text-gray-500 font-black uppercase tracking-[0.2em]">Password Member</label>
-                                            <button
-                                                onClick={() => setShowMemberPassword(!showMemberPassword)}
-                                                className="text-[8px] font-black text-neon-blue uppercase tracking-widest hover:underline"
-                                            >
-                                                {showMemberPassword ? 'Sembunyikan' : 'Lihat Password'}
-                                            </button>
+                                            <label className="text-[8px] text-gray-500 font-black uppercase tracking-[0.2em]">Status Kredensial</label>
+                                            <span className="text-[8px] font-black text-green-400 uppercase tracking-widest flex items-center gap-1">
+                                                <ShieldCheck size={12} /> Terenkripsi Aman
+                                            </span>
                                         </div>
                                         <div className="relative group">
                                             <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500">
                                                 <Lock size={16} />
                                             </div>
                                             <input
-                                                type={showMemberPassword ? "text" : "password"}
+                                                type="password"
                                                 readOnly
-                                                value={selectedMember.password || ''}
-                                                className="w-full bg-white/[0.02] border border-white/5 rounded-2xl py-5 pl-14 pr-5 text-gray-400 text-sm font-bold focus:outline-none"
-                                                placeholder={showMemberPassword ? "Data tidak tersedia" : "••••••••"}
+                                                value="••••••••••••••••"
+                                                className="w-full bg-white/[0.02] border border-white/5 rounded-2xl py-5 pl-14 pr-5 text-gray-500 text-sm font-bold focus:outline-none cursor-not-allowed select-none"
                                             />
-                                            {!selectedMember.password && (
-                                                <div className="absolute right-5 top-1/2 -translate-y-1/2 text-[7px] font-black text-yellow-500/40 uppercase tracking-widest text-right max-w-[80px] leading-tight">
-                                                    Akun Lama / Belum Sinkron
-                                                </div>
-                                            )}
+                                            <div className="absolute right-5 top-1/2 -translate-y-1/2 text-[8px] font-black text-neon-blue uppercase tracking-widest text-right">
+                                                Supabase Auth Hashed
+                                            </div>
                                         </div>
 
                                         <div className="pt-2">
@@ -1726,9 +1706,8 @@ export default function AdminDashboard() {
                             className="mt-10 w-full group relative"
                         >
                             <div className={`absolute inset-0 rounded-2xl blur-lg transition-opacity group-hover:opacity-100 opacity-50 ${modal.type === 'success' ? 'bg-green-500' : modal.type === 'error' ? 'bg-red-500' : 'bg-neon-blue'}`} />
-                            <div className="relative bg-white/5 hover:bg-white/10 border border-white/10 py-5 rounded-2xl text-white font-black uppercase tracking-[0.3em] text-[10px] transition-all active:scale-95 flex items-center justify-center gap-3">
-                                <span className="group-hover:translate-x-1 transition-transform">LANJUTKAN</span>
-                                <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform" />
+                            <div className="relative bg-white/5 hover:bg-white/10 border border-white/10 py-5 rounded-2xl text-white font-black uppercase tracking-[0.3em] text-[10px] transition-all active:scale-95 flex items-center justify-center">
+                                <span>LANJUTKAN</span>
                             </div>
                         </button>
                     </div>
